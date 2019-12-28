@@ -9,9 +9,8 @@ public class BlockBreakListener implements Listener {
 
     @EventHandler
     public void onEndPortalBreak (BlockBreakEvent event) {
-
         Material material = event.getBlock().getType();
-
+        if (material == Material.ENDER_PORTAL) event.setCancelled(true);
     }
 
 }

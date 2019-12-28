@@ -1,7 +1,11 @@
 prefix: 'TC'
 prefixColor: '&c'
+
 host: localhost
 port: 3306
 database: database
 username: username
 password: password
+
+warp_forbidden_worlds:
+  - 'cele'
