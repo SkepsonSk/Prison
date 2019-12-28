@@ -1,0 +1,17 @@
+name: Prison
+authors: [TesDev91, SkepsonSk]
+version: 1.0
+main: pl.trollcraft.Main
+
+commands:
+  fly:
+    description: Fly
+  helpop:
+    description: Helpop
+  gamemode:
+    description: Gamemode
+    aliases: [gm]
+  setwarp:
+    description: SetWarp
+  warp:
+    description: Warp

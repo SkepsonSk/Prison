@@ -1,0 +1,9 @@
+pl/trollcraft/obj/Warp.class
+pl/trollcraft/command/warp/WarpCommand.class
+pl/trollcraft/command/warp/SetWarpCommand.class
+pl/trollcraft/util/ChatUtil.class
+pl/trollcraft/Main.class
+pl/trollcraft/util/DatabaseHandler.class
+pl/trollcraft/command/GamemodeCommand.class
+pl/trollcraft/command/FlyCommand.class
+pl/trollcraft/command/HelpopCommand.class
