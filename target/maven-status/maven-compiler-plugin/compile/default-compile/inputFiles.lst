@@ -1,6 +1,10 @@
+/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/util/enchants/EnchantRegister.java
+/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/selling/MineListener.java
+/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/listener/MinerListener.java
 /home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/util/MoveDetect.java
 /home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/util/ChatUtil.java
 /home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/listener/BlockBreakListener.java
+/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/util/Configs.java
 /home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/obj/Warp.java
 /home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/command/HelpopCommand.java
 /home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/command/warp/SetWarpCommand.java
@@ -8,9 +12,13 @@
 /home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/command/FlyCommand.java
 /home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/command/GamemodeCommand.java
 /home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/listener/MoveListener.java
+/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/util/enchants/BlastEnchantment.java
 /home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/util/DelayedWarp.java
 /home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/command/SpawnCommand.java
+/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/selling/SellingUtils.java
 /home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/util/GeneralUtil.java
 /home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/command/warp/WarpCommand.java
+/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/command/PickaxeCommand.java
 /home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/obj/PlayerMoveDetectedEvent.java
+/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/selling/SellCommand.java
 /home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/Main.java
