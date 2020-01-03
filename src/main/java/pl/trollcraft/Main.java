@@ -6,6 +6,7 @@ import pl.trollcraft.command.*;
 import pl.trollcraft.command.warp.SetWarpCommand;
 import pl.trollcraft.command.warp.WarpCommand;
 import pl.trollcraft.listener.BlockBreakListener;
+import pl.trollcraft.listener.InventoryListener;
 import pl.trollcraft.listener.MinerListener;
 import pl.trollcraft.listener.MoveListener;
 import pl.trollcraft.obj.Warp;
@@ -34,6 +35,7 @@ public class Main extends JavaPlugin {
         MoveDetect.listen();
         SellingUtils.calcPrices();
         EnchantRegister.register();
+        GuiUtils.createInventory();
 
         getCommand("fly").setExecutor(new FlyCommand());
         getCommand("gamemode").setExecutor(new GamemodeCommand());
@@ -43,10 +45,12 @@ public class Main extends JavaPlugin {
         getCommand("spawn").setExecutor(new SpawnCommand());
         getCommand("sellall").setExecutor(new SellCommand());
         getCommand("blastpick").setExecutor(new PickaxeCommand());
+        getCommand("guitest").setExecutor(new GuiCommand());
 
         getServer().getPluginManager().registerEvents(new BlockBreakListener(), this);
         getServer().getPluginManager().registerEvents(new MoveListener(), this);
         getServer().getPluginManager().registerEvents(new MinerListener(), this);
+        getServer().getPluginManager().registerEvents(new InventoryListener(), this);
         //REMOVED MINE LISTENER OF SELLING PLUGIN
     }
 

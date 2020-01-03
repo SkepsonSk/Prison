@@ -50,7 +50,6 @@ public class BlastEnchantment extends Enchantment {
     }
 
     public static Block[] blast(int lvl, Block c) {
-
         Block blocks[];
         if (lvl == 0) {
             blocks = new Block[8+1];
