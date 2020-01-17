@@ -2,66 +2,41 @@ package pl.trollcraft.util.gui;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.function.Consumer;
 
 public class GUI {
 
     private static HashMap<Integer, GUI> opened = new HashMap<>();
 
-    private int slots;
-    private String title;
-    private ArrayList<Item> items;
-    private HashMap<Integer, Inventory> inventories;
+    private Inventory inventory;
+    private HashMap<Integer, Consumer<InventoryClickEvent>> listener;
 
     public GUI (int slots, String title) {
-        this.slots = slots;
-        this.title = title;
-        items = new ArrayList<>();
-        inventories = new HashMap<>();
         if (title.contains("§"))
-            throw new RuntimeException("Missin PARAGRAPH in inv title.");
+            throw new RuntimeException("Missing PARAGRAPH in inv title.");
+        inventory = Bukkit.createInventory(null, slots, title);
+        listener = new HashMap<>();
     }
 
-    public void addItem(Item item) { items.add(item); }
+    public void addItem(int slot, ItemStack itemStack, Consumer<InventoryClickEvent> click){
+        listener.put(slot, click);
+        inventory.setItem(slot, itemStack);
+    }
 
-    public Item getItem(int slot){
-        for (Item i : items){
-            if (i.getSlot() == slot) return i;
-        }
+    public Consumer<InventoryClickEvent> getClick(int slot){
+        if (listener.containsKey(slot))
+            return listener.get(slot);
         return null;
-    }
-
-    public Inventory create(Player player) {
-        Inventory inv = getInventory(player);
-        if (inv != null) return inv;
-
-        inv = Bukkit.createInventory(null, slots, title);
-        for (Item i : items)
-            inv.setItem(i.getSlot(), i.getItemStack());
-
-        int id = player.getEntityId();
-
-        inventories.put(id, inv);
-        if (opened.containsKey(id)) opened.replace(id, this);
-        else opened.put(id, this);
-
-        return inv;
     }
 
     public void close(Player player) {
         int id = player.getEntityId();
         if (opened.containsKey(id)) opened.remove(id);
-        if (inventories.containsKey(id)) inventories.remove(id);
-    }
-
-    private Inventory getInventory(Player player) {
-        int id = player.getEntityId();
-        if (inventories.containsKey(id))
-            return inventories.get(id);
-        return null;
     }
 
     public static GUI getOpened(Player player){
