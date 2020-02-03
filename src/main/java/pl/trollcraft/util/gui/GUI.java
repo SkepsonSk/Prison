@@ -17,8 +17,6 @@ public class GUI {
     private HashMap<Integer, Consumer<InventoryClickEvent>> listener;
 
     public GUI (int slots, String title) {
-        if (title.contains("§"))
-            throw new RuntimeException("Missing PARAGRAPH in inv title.");
         inventory = Bukkit.createInventory(null, slots, title);
         listener = new HashMap<>();
     }
@@ -28,10 +26,22 @@ public class GUI {
         inventory.setItem(slot, itemStack);
     }
 
+    public void clear() {
+        listener.clear();
+        inventory.clear();
+    }
+
     public Consumer<InventoryClickEvent> getClick(int slot){
         if (listener.containsKey(slot))
             return listener.get(slot);
         return null;
+    }
+
+    public void open(Player player) {
+        int id = player.getEntityId();
+        if (opened.containsKey(id)) return;
+        opened.put(id, this);
+        player.openInventory(inventory);
     }
 
     public void close(Player player) {

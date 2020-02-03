@@ -9,6 +9,11 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import pl.trollcraft.Main;
 import pl.trollcraft.util.ChatUtil;
+import tesdev.Money.MoneyAPI;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 
 public class SellCommand implements CommandExecutor {
 
@@ -47,14 +52,22 @@ public class SellCommand implements CommandExecutor {
         Inventory inv = player.getInventory();
         Material m;
         double sum = 0;
-        for (ItemStack is : inv.getContents()) {
+        ArrayList<ItemStack> rem = new ArrayList<>();
+        for (int i = 0 ; i < inv.getContents().length ; i++) {
+            ItemStack is = inv.getContents()[i];
             if (is == null) continue;
             m = is.getType();
-            player.sendMessage(m.ordinal() + "");
-            if (SellingUtils.hasPrice(m)) sum += SellingUtils.getPrice(m) * is.getAmount();
+            if (SellingUtils.hasPrice(m)) {
+                sum += SellingUtils.getPrice(m) * is.getAmount();
+                rem.add(is);
+            }
         }
-        player.sendMessage(String.valueOf(sum));
+        for (ItemStack is : rem)
+            inv.remove(is);
+        rem.clear();
+        MoneyAPI.getInstance().addMoney(player, sum);
 
+        ChatUtil.sendMessage(player, ChatUtil.fixColor("&7Sprzedano surowce.\n&a&l+" + sum));
     }
 
 }

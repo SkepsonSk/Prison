@@ -21,12 +21,12 @@ public class BlastEnchantment extends Enchantment {
 
     @Override
     public int getMaxLevel() {
-        return 2;
+        return 3;
     }
 
     @Override
     public int getStartLevel() {
-        return 0;
+        return 1;
     }
 
     @Override
@@ -51,9 +51,8 @@ public class BlastEnchantment extends Enchantment {
 
     public static Block[] blast(int lvl, Block c) {
         Block blocks[];
-        if (lvl == 0) {
+        if (lvl == 1) {
             blocks = new Block[8+1];
-            Bukkit.getConsoleSender().sendMessage("ddd");
             blocks[0] = c.getRelative(BlockFace.NORTH);
             blocks[1] = c.getRelative(BlockFace.SOUTH);
             blocks[2] = c.getRelative(BlockFace.EAST);
@@ -65,7 +64,7 @@ public class BlastEnchantment extends Enchantment {
             blocks[8] = c;
             return blocks;
         }
-        else if (lvl == 1) {
+        else if (lvl == 2) {
             blocks = new Block[8*2+2];
             Block down = c.getRelative(BlockFace.DOWN);
             blocks[0] = c.getRelative(BlockFace.NORTH);
@@ -88,7 +87,7 @@ public class BlastEnchantment extends Enchantment {
             blocks[17] = down;
             return blocks;
         }
-        else if (lvl == 2) {
+        else if (lvl == 3) {
             blocks = new Block[8*3+3];
             Block top = c.getRelative(BlockFace.UP);
             Block down = c.getRelative(BlockFace.DOWN);

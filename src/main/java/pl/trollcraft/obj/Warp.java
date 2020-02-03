@@ -1,13 +1,12 @@
 package pl.trollcraft.obj;
 
 import org.bukkit.Location;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import pl.trollcraft.Main;
 import pl.trollcraft.util.ChatUtil;
+import pl.trollcraft.util.Configs;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Warp {
@@ -16,12 +15,16 @@ public class Warp {
 
     private String name;
     private Location location;
+    private boolean locked;
 
-    public Warp(String name, Location location) {
+    public Warp(String name, Location location, boolean locked) {
         this.name = name;
         this.location = location;
+        this.locked = locked;
         warps.add(this);
     }
+
+    public boolean isLocked() { return locked; }
 
     public void teleport(Player player) {
         if (!location.getChunk().isLoaded()) location.getChunk().load();
@@ -29,17 +32,10 @@ public class Warp {
     }
 
     public void save() {
-
-        StringBuilder query = new StringBuilder();
-        query.append("INSERT INTO prison_warps VALUES (");
-        query.append("'" + name + "', '" + ChatUtil.locToString(location) + "')");
-
-        try {
-            Connection conn = Main.getDatabaseHandler().openConnection();
-            conn.prepareStatement(query.toString()).executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        YamlConfiguration conf = Configs.load("warps.yml", Main.getInstance());
+        conf.set("warps." + name + ".loc", ChatUtil.locToString(location));
+        conf.set("warps." + name + ".locked", locked);
+        Configs.save(conf, "warps.yml");
     }
 
     public static Warp get(String name) {
@@ -50,22 +46,12 @@ public class Warp {
     }
 
     public static void load() {
-
-        try {
-            Connection conn = Main.getDatabaseHandler().openConnection();
-            ResultSet rs = conn.prepareStatement("SELECT * FROM prison_warps").executeQuery();
-
-            String name;
-            Location loc;
-            while (rs.next()){
-                name = rs.getString("name");
-                loc = ChatUtil.locFromString(rs.getString("location"));
-                new Warp(name, loc);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+        YamlConfiguration conf = Configs.load("warps.yml", Main.getInstance());
+        conf.getConfigurationSection("warps").getKeys(false).forEach( name -> {
+            Location loc = ChatUtil.locFromString(conf.getString("warps." + name + ".loc"));
+            boolean locked = conf.getBoolean(conf.getString("warps." + name + ".locked"));
+            new Warp(name, loc, locked);
+        } );
     }
 
 }

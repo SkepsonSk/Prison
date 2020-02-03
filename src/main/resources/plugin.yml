@@ -21,5 +21,31 @@ commands:
     description: Sellall
   blastpick:
     description: BlastPick
+  autosell:
+    description: AutoSell
   guitest:
     description: GuiTest
+  blasttest:
+    description: BlastTest
+  enchant:
+    description: Enchant
+  cell:
+    description: Cell
+    aliases: [cela]
+  visit:
+    description: Visit Cell
+    aliases: [odwiedz]
+  accept:
+    description: Accept Visit
+    aliases: [pozwol]
+  promote:
+    description: Promote
+    aliases: [awans]
+  envoyadmin:
+    description: Envoy Admin
+    aliases: [enadm, envadm, envoyadm]
+  envoy:
+    description: Envoy
+    aliases: [zrzut, zrz, env, en]
+  debugcells:
+    description: Debugging cells

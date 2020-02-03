@@ -28,11 +28,11 @@ public class SetWarpCommand implements CommandExecutor {
             return true;
         }
 
-        if (args.length != 1) {
+        if (args.length == 1 || args.length > 2) {
             ChatUtil.sendMessage(sender, ChatUtil.fixColor(
                     Main.getInstance().getConfig().get("prefixColor") +
                     Main.getInstance().getConfig().getString("prefix") +
-                    " &cUzycie: /setwarp <nazwa>"));
+                    " &cUzycie: /setwarp <nazwa> <zablokowany*>"));
             return true;
         }
 
@@ -47,7 +47,14 @@ public class SetWarpCommand implements CommandExecutor {
             return true;
         }
 
-        new Warp(name, player.getLocation()).save();
+        boolean locked = false;
+
+        if (args.length == 2) {
+            locked = Boolean.parseBoolean(args[1]);
+            ChatUtil.sendMessage(sender, ChatUtil.fixColor("&7(Blokada warp'u: &e" + locked + "&7)"));
+        }
+
+        new Warp(name, player.getLocation(), locked).save();
         ChatUtil.sendMessage(sender, ChatUtil.fixColor(
                 Main.getInstance().getConfig().get("prefixColor") +
                 Main.getInstance().getConfig().getString("prefix") +

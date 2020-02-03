@@ -1,0 +1,5 @@
+enchantdata:
+  blast:
+    displayName: "Fortuna"
+    maxLevel: 5
+    levelPrice: 100

@@ -60,17 +60,17 @@ public class WarpCommand implements CommandExecutor {
             return true;
         }
 
-        if (!sender.hasPermission("prison.warp." + name)){
+        if (warp.isLocked() && !player.hasPermission("prison.warps.unlocked")){
             ChatUtil.sendMessage(sender, ChatUtil.fixColor(
                     Main.getInstance().getConfig().get("prefixColor") +
-                    Main.getInstance().getConfig().getString("prefix") +
-                    " &cBrak uprawnien."));
+                            Main.getInstance().getConfig().getString("prefix") +
+                            "&cTen warp jest zablokowany."));
             return true;
         }
 
         warp.teleport(player);
 
-        return false;
+        return true;
     }
 
 }

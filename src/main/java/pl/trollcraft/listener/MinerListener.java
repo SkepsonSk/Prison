@@ -9,8 +9,11 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
+import pl.trollcraft.selling.SellingUtils;
+import pl.trollcraft.util.AutoSell;
 import pl.trollcraft.util.enchants.BlastEnchantment;
 import pl.trollcraft.util.enchants.EnchantRegister;
+import tesdev.Money.MoneyAPI;
 
 import java.util.Map;
 
@@ -24,9 +27,24 @@ public class MinerListener implements Listener {
         Player player = event.getPlayer();
         Block[] blocks = getBlocksMined(player, event.getBlock());
 
-        for (Block b : blocks) {
-            player.getInventory().addItem(new ItemStack(b.getType()));
-            b.setType(Material.AIR);
+        if (AutoSell.hasEnabled(player)){
+            for (Block b : blocks) {
+
+                if (SellingUtils.hasPrice(b.getType())) {
+                    double mon = SellingUtils.getPrice(b.getType());
+                    event.getBlock().setType(Material.AIR);
+                    MoneyAPI.getInstance().addMoney(event.getPlayer().getName(), mon);
+                }
+                else player.getInventory().addItem(new ItemStack(b.getType()));
+
+                b.setType(Material.AIR);
+            }
+        }
+        else{
+            for (Block b : blocks) {
+                player.getInventory().addItem(new ItemStack(b.getType()));
+                b.setType(Material.AIR);
+            }
         }
 
     }
@@ -35,10 +53,8 @@ public class MinerListener implements Listener {
         ItemStack itemStack = player.getItemInHand();
         int lvl = hasBlast(itemStack);
 
-        if (lvl != -1){
-            player.sendMessage(String.valueOf(lvl));
+        if (lvl != -1)
             return BlastEnchantment.blast(lvl, block);
-        }
         return new Block[] {block};
     }
 

@@ -44,6 +44,29 @@
             <version>1.8.8-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>dev.tes</groupId>
+            <artifactId>money-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/Money-1.0-SNAPSHOT.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.fawe</groupId>
+            <artifactId>we-fawe-api</artifactId>
+            <version>7.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/fawe.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.worldedit</groupId>
+            <artifactId>we-api</artifactId>
+            <version>7.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/WorldEdit.jar</systemPath>
+        </dependency>
+
     </dependencies>
 
 </project>

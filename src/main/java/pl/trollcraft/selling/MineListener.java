@@ -4,6 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import tesdev.Money.MoneyAPI;
 
 public class MineListener implements Listener {
 
@@ -14,7 +15,7 @@ public class MineListener implements Listener {
             event.setCancelled(true);
             double mon = SellingUtils.getPrice(m);
             event.getBlock().setType(Material.AIR);
-            event.getPlayer().sendMessage(mon + "");
+            MoneyAPI.getInstance().addMoney(event.getPlayer().getName(), mon);
         }
     }
 
