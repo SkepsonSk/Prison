@@ -8,6 +8,7 @@ import pl.trollcraft.obj.PrisonBlock;
 import pl.trollcraft.obj.cells.Cell;
 import pl.trollcraft.obj.Warp;
 import pl.trollcraft.util.AutoSell;
+import pl.trollcraft.util.MinersManager;
 
 public class JoinListener implements Listener {
 
@@ -17,6 +18,7 @@ public class JoinListener implements Listener {
         AutoSell.load(player);
         Cell.load(player);
         PrisonBlock.assignToPlayer(player);
+        MinersManager.load(player);
 
         Warp.get("spawn").teleport(player);
     }

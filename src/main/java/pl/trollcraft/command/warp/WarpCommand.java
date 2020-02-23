@@ -60,7 +60,9 @@ public class WarpCommand implements CommandExecutor {
             return true;
         }
 
-        if (warp.isLocked() && !player.hasPermission("prison.warps.unlocked")){
+        player.sendMessage("" + warp.isLocked());
+
+        if (warp.isLocked()){
             ChatUtil.sendMessage(sender, ChatUtil.fixColor(
                     Main.getInstance().getConfig().get("prefixColor") +
                             Main.getInstance().getConfig().getString("prefix") +

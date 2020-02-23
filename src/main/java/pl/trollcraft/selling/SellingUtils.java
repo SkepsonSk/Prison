@@ -3,8 +3,6 @@ package pl.trollcraft.selling;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import pl.trollcraft.Main;
 
 import java.util.Arrays;
@@ -14,7 +12,7 @@ public class SellingUtils {
 
     private static final String SELLS_PATH = "selling";
 
-    private static HashMap<Material, Double> prices = new HashMap<>();
+    private static HashMap<Integer, Double> prices = new HashMap<>();
     private static int[] materials;
 
     public static void calcPrices() {
@@ -23,18 +21,18 @@ public class SellingUtils {
         int len = config.getStringList(SELLS_PATH).size(), i = 0;
         materials = new int[len];
         for (String s : config.getStringList(SELLS_PATH)){
-            Bukkit.getConsoleSender().sendMessage(s);
-            String[] data = s.split("=");
-            Material m = Material.valueOf(data[0].toUpperCase());
-            prices.put(m, Double.parseDouble(data[1]));
+            String[] data = s.split(":");
+            Material m = Material.getMaterial(data[0].toUpperCase());
+            byte d = Byte.parseByte(data[1]);
+            prices.put(m.ordinal() + d, Double.parseDouble(data[2]));
             materials[i] = m.ordinal();
             i++;
         }
         Arrays.sort(materials);
     }
 
-    public static double getPrice(Material material) {
-        return prices.get(material);
+    public static double getPrice(Material material, byte data) {
+        return prices.get(material.ordinal() + data);
     }
 
     public static boolean hasPrice(Material material){

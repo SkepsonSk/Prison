@@ -13,6 +13,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import pl.trollcraft.envoy.EnvoyChest;
+import pl.trollcraft.lootchests.LootChest;
 import pl.trollcraft.util.ChatUtil;
 
 public class InteractionListener implements Listener {
@@ -74,6 +75,33 @@ public class InteractionListener implements Listener {
         if (envoyChest.hasBeenOpened()) return;
         envoyChest.spawnItems(chest);
         envoyChest.setHasBeenOpened(true);
+    }
+
+    @EventHandler
+    public void onLootChestInteraction (PlayerInteractEvent event) {
+        if (!event.hasBlock()) return;
+        if (!event.getClickedBlock().getWorld().getName().equals("world")) return;
+        Block b = event.getClickedBlock();
+        if (!(b.getState() instanceof Chest)) return;
+
+        Chest chest = (Chest) b.getState();
+        LootChest lootChest = LootChest.get(chest);
+
+        if (lootChest == null) return;
+
+        event.setCancelled(true);
+        Player player = event.getPlayer();
+
+        ItemStack key = player.getItemInHand();
+        if (lootChest.keyMatches(key)){
+            lootChest.open(player);
+            ChatUtil.sendMessage(player, ChatUtil.fixColor("&aOtworzono skrzynie."));
+        }
+        else{
+            ChatUtil.sendMessage(player, ChatUtil.fixColor("&cTo nie jest wlasciwy klucz."));
+        }
+
+
     }
 
 }

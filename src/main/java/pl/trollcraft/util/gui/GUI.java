@@ -14,12 +14,17 @@ public class GUI {
     private static HashMap<Integer, GUI> opened = new HashMap<>();
 
     private Inventory inventory;
+    private boolean autoClose;
     private HashMap<Integer, Consumer<InventoryClickEvent>> listener;
 
     public GUI (int slots, String title) {
         inventory = Bukkit.createInventory(null, slots, title);
+        autoClose = false;
         listener = new HashMap<>();
     }
+
+    public boolean hasAutoClose() { return autoClose; }
+    public void setAutoClose(boolean autoClose) { this.autoClose = autoClose; }
 
     public void addItem(int slot, ItemStack itemStack, Consumer<InventoryClickEvent> click){
         listener.put(slot, click);
@@ -39,9 +44,18 @@ public class GUI {
 
     public void open(Player player) {
         int id = player.getEntityId();
-        if (opened.containsKey(id)) return;
-        opened.put(id, this);
+        if (opened.containsKey(id)) opened.replace(id, this);
+        else opened.put(id, this);
         player.openInventory(inventory);
+    }
+
+    public void update() {
+
+        inventory.getViewers().forEach( v -> {
+            if (v instanceof Player)
+                ((Player) v).updateInventory();
+        } );
+
     }
 
     public void close(Player player) {

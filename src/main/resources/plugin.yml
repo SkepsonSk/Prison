@@ -1,6 +1,7 @@
 name: Prison
 authors: [TesDev91, SkepsonSk]
 version: 1.0
+depend: [WorldGuard]
 main: pl.trollcraft.Main
 
 commands:
@@ -47,5 +48,11 @@ commands:
   envoy:
     description: Envoy
     aliases: [zrzut, zrz, env, en]
+  lootchest:
+    description: Loot Chest
+    aliases: [lc, lootc, lchest]
   debugcells:
     description: Debugging cells
+  shop:
+    description: Shop
+    aliases: [sklep]

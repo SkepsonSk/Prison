@@ -1,7 +1,10 @@
 package pl.trollcraft;
 
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.trollcraft.cells.VoidWorldChunkGenerator;
 import pl.trollcraft.command.*;
@@ -14,6 +17,13 @@ import pl.trollcraft.command.warp.SetWarpCommand;
 import pl.trollcraft.command.warp.WarpCommand;
 import pl.trollcraft.envoy.EnvoyChest;
 import pl.trollcraft.listener.*;
+import pl.trollcraft.lootchests.LootChest;
+import pl.trollcraft.mineractions.MinerListener;
+import pl.trollcraft.mineractions.actions.AutoSellAction;
+import pl.trollcraft.mineractions.actions.BlockBreakAction;
+import pl.trollcraft.mineractions.actions.MinedBlocksAction;
+import pl.trollcraft.mineractions.actions.RewardAction;
+import pl.trollcraft.obj.BlockReward;
 import pl.trollcraft.obj.PrisonBlock;
 import pl.trollcraft.obj.cells.CellNode;
 import pl.trollcraft.obj.cells.PendingVisit;
@@ -21,6 +31,7 @@ import pl.trollcraft.obj.Warp;
 import pl.trollcraft.obj.enchanting.EnchantData;
 import pl.trollcraft.selling.SellCommand;
 import pl.trollcraft.selling.SellingUtils;
+import pl.trollcraft.shop.Shop;
 import pl.trollcraft.util.*;
 import pl.trollcraft.util.enchants.EnchantRegister;
 
@@ -31,6 +42,7 @@ public class Main extends JavaPlugin {
     private static Main instance;
     private static DatabaseHandler databaseHandler;
     private static YamlConfiguration sells;
+    private static WorldGuardPlugin worldGuardPlugin;
 
     @Override
     public void onEnable() {
@@ -39,6 +51,7 @@ public class Main extends JavaPlugin {
         databaseHandler = new DatabaseHandler(this);
         databaseHandler.prepare();
         sells = Configs.load("selling.yml", this);
+        setWorldGuardPlugin();
         Warp.load();
         DelayedWarp.listen();
         MoveDetect.listen();
@@ -48,10 +61,21 @@ public class Main extends JavaPlugin {
         PendingVisit.startTimer();
         EnchantData.load();
         PrisonBlock.load();
+        DropManager.load();
         EnvoyChest.ENVOY_WORLD = Bukkit.getWorld("envoy");
         EnvoyChest.loadEnvoyChests();
         EnvoyChest.loadEnvoyItems();
         EnvoyChest.init();
+        LootChest.load();
+        Shop.load();
+        BlockReward.load();
+
+        new PlaceholderManager().register();
+
+        new AutoSellAction();
+        new BlockBreakAction();
+        new MinedBlocksAction();
+        new RewardAction();
 
         getCommand("fly").setExecutor(new FlyCommand());
         getCommand("gamemode").setExecutor(new GamemodeCommand());
@@ -70,7 +94,9 @@ public class Main extends JavaPlugin {
         getCommand("promote").setExecutor(new PromoteCommand());
         getCommand("envoyadmin").setExecutor(new EnvoyAdminCommand());
         getCommand("envoy").setExecutor(new EnvoyCommand());
+        getCommand("lootchest").setExecutor(new LootChestCommand());
         getCommand("debugcells").setExecutor(new CellDebugCommand());
+        getCommand("shop").setExecutor(new ShopCommand());
 
         getServer().getPluginManager().registerEvents(new MoveListener(), this);
         getServer().getPluginManager().registerEvents(new MinerListener(), this);
@@ -80,7 +106,6 @@ public class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new InteractionListener(), this);
         getServer().getPluginManager().registerEvents(new CommandListener(), this);
         getServer().getPluginManager().registerEvents(new SpawnListener(), this);
-        //REMOVED MINE LISTENER OF SELLING PLUGIN
 
         if (!VoidWorldChunkGenerator.exists())
             VoidWorldChunkGenerator.generate();
@@ -96,8 +121,21 @@ public class Main extends JavaPlugin {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        for (Player player : Bukkit.getOnlinePlayers())
+            MinersManager.save(player);
     }
 
+    private static void setWorldGuardPlugin() {
+        Plugin plugin = Main.getInstance().getServer().getPluginManager().getPlugin("WorldGuard");
+        if (plugin == null || !(plugin instanceof WorldGuardPlugin)) {
+            Debug.log("&cBrak pluginu World Guard!");
+            return;
+        }
+        worldGuardPlugin = (WorldGuardPlugin) plugin;
+    }
+
+    public static WorldGuardPlugin getWorldGuardPlugin() { return worldGuardPlugin; }
     public static Main getInstance() { return instance; }
     public static DatabaseHandler getDatabaseHandler() { return databaseHandler; }
     public static YamlConfiguration getSells() { return sells; }

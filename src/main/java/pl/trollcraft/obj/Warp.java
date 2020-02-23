@@ -40,7 +40,7 @@ public class Warp {
 
     public static Warp get(String name) {
         for (Warp w : warps){
-            if (w.name.equals(name)) return w;
+            if (w.name.equalsIgnoreCase(name)) return w;
         }
         return null;
     }
@@ -49,7 +49,7 @@ public class Warp {
         YamlConfiguration conf = Configs.load("warps.yml", Main.getInstance());
         conf.getConfigurationSection("warps").getKeys(false).forEach( name -> {
             Location loc = ChatUtil.locFromString(conf.getString("warps." + name + ".loc"));
-            boolean locked = conf.getBoolean(conf.getString("warps." + name + ".locked"));
+            boolean locked = conf.getBoolean("warps." + name + ".locked");
             new Warp(name, loc, locked);
         } );
     }

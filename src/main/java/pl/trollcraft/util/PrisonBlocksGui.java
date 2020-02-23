@@ -30,6 +30,8 @@ public class PrisonBlocksGui {
         ChatUtil.sendMessage(player, ChatUtil.fixColor("&7Przenoszenie na blok &e" + warpName + "."));
     };
 
+    private static final Consumer<InventoryClickEvent> lockedPick = event -> event.setCancelled(true);
+
     // -------- -------- -------- -------- --------
 
     private static GUI prepare(Player player) {
@@ -49,7 +51,7 @@ public class PrisonBlocksGui {
         if (locked > 0) {
 
             for (int i = 0 ; i < locked ; i++) {
-                gui.addItem(index, createLockedItem(), null);
+                gui.addItem(index, createLockedItem(), lockedPick);
                 index++;
             }
 

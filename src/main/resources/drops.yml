@@ -1,0 +1,20 @@
+drops:
+  0:
+    broken:
+      material: DIAMOND_ORE
+      data: 0
+    got:
+      material: DIAMOND
+      data: 0
+
+keys:
+  0:
+    from:
+      material: STONE
+      data: 0
+    key:
+      type:
+      chances:
+        - '1:1%'
+        - '2:4%'
+        - '3:5%'

@@ -42,10 +42,10 @@ public class AvailableEnchant {
         for (EnchantData data : EnchantData.getData()) {
             e = data.getEnchantment();
 
-            Debug.log(e.getName());
             if (!e.canEnchantItem(itemStack)) continue;
             lvl = itemStack.getEnchantmentLevel(e);
-            Debug.log(e.getName());
+            Debug.log("" + data.getMaxLevel());
+            Debug.log(e.getName() + " " + lvl + " " + data.getMaxLevel());
 
             if (lvl < data.getMaxLevel()) availableEnchants.add(new AvailableEnchant(e, data.getDisplayName(), data.getLevelPrice() * (lvl + 1), lvl + 1));
         }

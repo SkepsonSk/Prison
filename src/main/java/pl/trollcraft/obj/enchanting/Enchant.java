@@ -7,6 +7,7 @@ public enum Enchant {
 
     EFFICIENCY(Enchantment.DIG_SPEED),
     UNBREAKING(Enchantment.DURABILITY),
+    FORTUNE(Enchantment.LOOT_BONUS_BLOCKS),
     BLAST(EnchantRegister.BLAST_ENCHANTMENT);
 
     private Enchantment enchantment;

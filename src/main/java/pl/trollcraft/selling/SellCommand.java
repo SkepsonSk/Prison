@@ -29,7 +29,7 @@ public class SellCommand implements CommandExecutor {
 
         if (args.length == 0) {
 
-            if (!sender.hasPermission("prison.sell")) {
+            if (!sender.hasPermission("prison.sellall")) {
                 ChatUtil.sendMessage(sender, ChatUtil.fixColor("&cAby moc sprzedawac komenda, musisz byc graczem VIP."));
                 return true;
             }
@@ -58,7 +58,7 @@ public class SellCommand implements CommandExecutor {
             if (is == null) continue;
             m = is.getType();
             if (SellingUtils.hasPrice(m)) {
-                sum += SellingUtils.getPrice(m) * is.getAmount();
+                sum += SellingUtils.getPrice(m, is.getData().getData()) * is.getAmount();
                 rem.add(is);
             }
         }

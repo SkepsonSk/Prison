@@ -4,6 +4,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import pl.trollcraft.Main;
 import pl.trollcraft.util.Configs;
+import pl.trollcraft.util.Debug;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,23 +21,25 @@ public class PrisonBlock {
     private String name;
     private String next;
     private double enterPrice;
+    private int enterBlocksMined;
 
-    public PrisonBlock(String name, String next, double enterPrice) {
+    public PrisonBlock(String name, String next, double enterPrice, int enterBlocksMined) {
         value = counter;
         this.name = name;
         this.next = next;
         this.enterPrice = enterPrice;
+        this.enterBlocksMined = enterBlocksMined;
         counter++;
         blocks.add(this);
     }
 
     public static ArrayList<PrisonBlock> getBlocks() { return blocks; }
 
-    public int getValue() { return value; }
     public String getName() { return name; }
     public boolean hasUnlocked(Player player) { return (playerBlocks.get(player).value >= value); }
     public PrisonBlock getNext() { return next != null ? get(next) : null; }
     public double getEnterPrice() { return enterPrice; }
+    public int getEnterBlocksMined() { return enterBlocksMined; }
 
     // -------- -------- -------- -------- --------
 
@@ -78,7 +81,12 @@ public class PrisonBlock {
                 next = conf.getString("blocks." + name + ".next");
 
             double enterPrice = conf.getDouble("blocks." + name + ".enterPrice");
-            new PrisonBlock(name, next, enterPrice);
+            int enterBlocksMined = 0;
+
+            if (conf.contains("blocks." + name + ".enterBlocksMines"))
+                enterBlocksMined = conf.getInt("blocks." + name + ".enterBlocksMined");
+
+            new PrisonBlock(name, next, enterPrice, enterBlocksMined);
         } );
         defaultBlock = get(conf.getString("defaultBlock"));
     }

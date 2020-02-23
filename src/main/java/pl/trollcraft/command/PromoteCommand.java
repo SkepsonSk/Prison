@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import pl.trollcraft.obj.PrisonBlock;
 import pl.trollcraft.util.ChatUtil;
 import pl.trollcraft.util.Debug;
+import pl.trollcraft.util.MinersManager;
 import tesdev.Money.MoneyAPI;
 
 public class PromoteCommand implements CommandExecutor {
@@ -31,16 +32,28 @@ public class PromoteCommand implements CommandExecutor {
 
         MoneyAPI api = MoneyAPI.getInstance();
         double price = next.getEnterPrice();
+        int blocks = next.getEnterBlocksMined();
         double money = api.getMoney(player);
+        int blocksMined = MinersManager.get(player);
 
         if (money >= price){
-            PrisonBlock.unlock(player, next);
-            PrisonBlock.savePlayer(player);
-            ChatUtil.sendMessage(player, "&aOdblokowano blok &e" + next.getName() + "!");
-            api.removeMoney(player, price);
+
+            if (blocksMined >= blocks){
+                PrisonBlock.unlock(player, next);
+                PrisonBlock.savePlayer(player);
+                ChatUtil.sendMessage(player, "&aOdblokowano blok &e" + next.getName() + "!");
+                api.removeMoney(player, price);
+            }
+            else{
+                int missing = blocks - blocksMined;
+                ChatUtil.sendMessage(player, ChatUtil.fixColor("&cAby odblokowac blok &e" + next.getName() +
+                        " &7musisz wykopac jeszcze &e" + missing + " blokow."));
+                return true;
+            }
+
         }
         else{
-            ChatUtil.sendMessage(player, ChatUtil.fixColor("&cAby odblokowac block &e" + pb.getName() +
+            ChatUtil.sendMessage(player, ChatUtil.fixColor("&cAby odblokowac blok &e" + next.getName() +
                     "&c potrzebujesz &e" + price + " &cmonet."));
         }
 

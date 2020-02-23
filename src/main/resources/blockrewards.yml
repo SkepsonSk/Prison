@@ -1,0 +1,9 @@
+rewards:
+  100:
+    title: 'Gratulacje!'
+    subtitle: 'Kolejne 100 blokow wykopane!'
+    money: 100
+    tokens: 10
+    item:
+      type: IRON_INGOT
+      amount: 3

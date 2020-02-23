@@ -6,25 +6,17 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import pl.trollcraft.util.ChatUtil;
 import pl.trollcraft.util.Debug;
 import pl.trollcraft.util.gui.GUI;
 import tesdev.Money.MoneyAPI;
+import tesdev.Money.TockensAPI;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.function.Consumer;
 
 public class EnchantGui {
-
-    private static Consumer<InventoryClickEvent> buyAction = event -> {
-        event.setCancelled(true);
-        ItemMeta meta = event.getCurrentItem().getItemMeta();
-        AvailableEnchant ae = AvailableEnchant.get(meta.getDisplayName().substring(4));
-        Player player = (Player) event.getWhoClicked();
-        Debug.log(ae.getEnchantment().getName());
-        ae.apply(player.getItemInHand());
-        reload(player);
-    };
 
     private static GUI prepare(ItemStack itemStack) {
         ArrayList<AvailableEnchant> e = AvailableEnchant.getAvailableEnchants(itemStack);
@@ -39,7 +31,25 @@ public class EnchantGui {
         int s = 12;
         for (AvailableEnchant ae : e) {
             is = createItemStack(ae);
-            gui.addItem(s, is, buyAction);
+
+            Consumer<InventoryClickEvent> buy = event -> {
+                event.setCancelled(true);
+
+                Player player = (Player) event.getWhoClicked();
+                double tokens = TockensAPI.getInstance().getTockens(player);
+
+                if (tokens >= ae.getPrice()){
+                    ae.apply(player.getItemInHand());
+                    reload(player);
+                    TockensAPI.getInstance().removeTockens(player, ae.getPrice());
+                    ChatUtil.sendMessage(player, ChatUtil.fixColor("&7Zakupiono enchant!\n&c&l-" + ae.getPrice()));
+                }
+                else
+                    ChatUtil.sendMessage(player, ChatUtil.fixColor("&cBrakuje Ci token'ow!"));
+
+            };
+
+            gui.addItem(s, is, buy);
             s++;
         }
 
@@ -84,7 +94,24 @@ public class EnchantGui {
         int s = 12;
         for (AvailableEnchant ae : e) {
             is = createItemStack(ae);
-            gui.addItem(s, is, buyAction);
+
+            Consumer<InventoryClickEvent> buy = event -> {
+                event.setCancelled(true);
+
+                double tokens = TockensAPI.getInstance().getTockens(player);
+
+                if (tokens >= ae.getPrice()){
+                    ae.apply(player.getItemInHand());
+                    reload(player);
+                    TockensAPI.getInstance().removeTockens(player, ae.getPrice());
+                    ChatUtil.sendMessage(player, ChatUtil.fixColor("&7Zakupiono enchant!\n&c&l-" + ae.getPrice()));
+                }
+                else
+                    ChatUtil.sendMessage(player, ChatUtil.fixColor("&cBrakuje Ci token'ow!"));
+
+            };
+
+            gui.addItem(s, is, buy);
             s++;
         }
 
