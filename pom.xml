@@ -87,6 +87,13 @@
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/worldguard-6.1.jar</systemPath>
         </dependency>
+        <dependency>
+            <groupId>org.pl</groupId>
+            <artifactId>ProtocolLib</artifactId>
+            <version>4.5.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/ProtocolLib.jar</systemPath>
+        </dependency>
 
     </dependencies>
 

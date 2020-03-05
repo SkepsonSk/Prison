@@ -1,5 +1,6 @@
 package pl.trollcraft.mineractions;
 
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
@@ -17,7 +18,7 @@ public abstract class MinerAction {
 
     public abstract boolean canBePerformed(Player player);
     public abstract void prepare(Player player);
-    public abstract void perform(Player player, Block block);
+    public abstract void perform(Player player, Material material, byte data);
 
     // -------- -------- -------- -------- --------
 

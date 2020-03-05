@@ -71,15 +71,13 @@ public class EnchantGui {
 
         GUI gui = prepare(item);
 
-        double money = MoneyAPI.getInstance().getMoney(player);
-
+        int tokens = (int) TockensAPI.getInstance().getTockens(player);
         ItemStack state = new ItemStack(Material.SKULL_ITEM);
         SkullMeta meta = (SkullMeta) state.getItemMeta();
-        meta.setDisplayName("§7Pieniadze: §e" + money);
+        meta.setDisplayName("§7Token'y: §e" + tokens);
         meta.setOwner(player.getName());
         state.setItemMeta(meta);
-
-        gui.addItem(10, state, null);
+        gui.addItem(10, state, event -> event.setCancelled(true));
 
         gui.open(player);
     }
@@ -87,6 +85,14 @@ public class EnchantGui {
     public static void reload(Player player) {
         GUI gui = GUI.getOpened(player);
         gui.clear();
+
+        int t = (int) TockensAPI.getInstance().getTockens(player);
+        ItemStack state = new ItemStack(Material.SKULL_ITEM);
+        SkullMeta meta = (SkullMeta) state.getItemMeta();
+        meta.setDisplayName("§7Token'y: §e" + t);
+        meta.setOwner(player.getName());
+        state.setItemMeta(meta);
+        gui.addItem(10, state, event -> event.setCancelled(true));
 
         ArrayList<AvailableEnchant> e = AvailableEnchant.getAvailableEnchants(player.getItemInHand());
 
@@ -102,8 +108,8 @@ public class EnchantGui {
 
                 if (tokens >= ae.getPrice()){
                     ae.apply(player.getItemInHand());
-                    reload(player);
                     TockensAPI.getInstance().removeTockens(player, ae.getPrice());
+                    reload(player);
                     ChatUtil.sendMessage(player, ChatUtil.fixColor("&7Zakupiono enchant!\n&c&l-" + ae.getPrice()));
                 }
                 else

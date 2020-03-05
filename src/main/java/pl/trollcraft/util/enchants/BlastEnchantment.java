@@ -8,6 +8,8 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
+
 public class BlastEnchantment extends Enchantment {
 
     public BlastEnchantment() {
@@ -49,75 +51,74 @@ public class BlastEnchantment extends Enchantment {
                 t == Material.WOOD_PICKAXE);
     }
 
-    public static Block[] blast(int lvl, Block c) {
-        Block blocks[];
+    public static ArrayList<Block> blast(int lvl, Block c) {
+
+        ArrayList<Block> blocks = new ArrayList<>(32);
+
         if (lvl == 1) {
-            blocks = new Block[8+1];
-            blocks[0] = c.getRelative(BlockFace.NORTH);
-            blocks[1] = c.getRelative(BlockFace.SOUTH);
-            blocks[2] = c.getRelative(BlockFace.EAST);
-            blocks[3] = c.getRelative(BlockFace.WEST);
-            blocks[4] = c.getRelative(BlockFace.NORTH_EAST);
-            blocks[5] = c.getRelative(BlockFace.NORTH_WEST);
-            blocks[6] = c.getRelative(BlockFace.SOUTH_EAST);
-            blocks[7] = c.getRelative(BlockFace.SOUTH_WEST);
-            blocks[8] = c;
+            blocks.add(c.getRelative(BlockFace.NORTH));
+            blocks.add(c.getRelative(BlockFace.SOUTH));
+            blocks.add(c.getRelative(BlockFace.EAST));
+            blocks.add(c.getRelative(BlockFace.WEST));
+            blocks.add(c.getRelative(BlockFace.NORTH_EAST));
+            blocks.add(c.getRelative(BlockFace.NORTH_WEST));
+            blocks.add(c.getRelative(BlockFace.SOUTH_EAST));
+            blocks.add(c.getRelative(BlockFace.SOUTH_WEST));
+            blocks.add(c);
             return blocks;
         }
         else if (lvl == 2) {
-            blocks = new Block[8*2+2];
             Block down = c.getRelative(BlockFace.DOWN);
-            blocks[0] = c.getRelative(BlockFace.NORTH);
-            blocks[1] = c.getRelative(BlockFace.SOUTH);
-            blocks[2] = c.getRelative(BlockFace.EAST);
-            blocks[3] = c.getRelative(BlockFace.WEST);
-            blocks[4] = c.getRelative(BlockFace.NORTH_EAST);
-            blocks[5] = c.getRelative(BlockFace.NORTH_WEST);
-            blocks[6] = c.getRelative(BlockFace.SOUTH_EAST);
-            blocks[7] = c.getRelative(BlockFace.SOUTH_WEST);
-            blocks[8] = down.getRelative(BlockFace.NORTH);
-            blocks[9] = down.getRelative(BlockFace.SOUTH);
-            blocks[10] = down.getRelative(BlockFace.EAST);
-            blocks[11] = down.getRelative(BlockFace.WEST);
-            blocks[12] = down.getRelative(BlockFace.NORTH_EAST);
-            blocks[13] = down.getRelative(BlockFace.NORTH_WEST);
-            blocks[14] = down.getRelative(BlockFace.SOUTH_EAST);
-            blocks[15] = down.getRelative(BlockFace.SOUTH_WEST);
-            blocks[16] = c;
-            blocks[17] = down;
+            blocks.add(c.getRelative(BlockFace.NORTH));
+            blocks.add(c.getRelative(BlockFace.SOUTH));
+            blocks.add(c.getRelative(BlockFace.EAST));
+            blocks.add(c.getRelative(BlockFace.WEST));
+            blocks.add(c.getRelative(BlockFace.NORTH_EAST));
+            blocks.add(c.getRelative(BlockFace.NORTH_WEST));
+            blocks.add(c.getRelative(BlockFace.SOUTH_EAST));
+            blocks.add(c.getRelative(BlockFace.SOUTH_WEST));
+            blocks.add(down.getRelative(BlockFace.NORTH));
+            blocks.add(down.getRelative(BlockFace.SOUTH));
+            blocks.add(down.getRelative(BlockFace.EAST));
+            blocks.add(down.getRelative(BlockFace.WEST));
+            blocks.add(down.getRelative(BlockFace.NORTH_EAST));
+            blocks.add(down.getRelative(BlockFace.NORTH_WEST));
+            blocks.add(down.getRelative(BlockFace.SOUTH_EAST));
+            blocks.add(down.getRelative(BlockFace.SOUTH_WEST));
+            blocks.add(c);
+            blocks.add(down);
             return blocks;
         }
         else if (lvl == 3) {
-            blocks = new Block[8*3+3];
             Block top = c.getRelative(BlockFace.UP);
             Block down = c.getRelative(BlockFace.DOWN);
-            blocks[0] = c.getRelative(BlockFace.NORTH);
-            blocks[1] = c.getRelative(BlockFace.SOUTH);
-            blocks[2] = c.getRelative(BlockFace.EAST);
-            blocks[3] = c.getRelative(BlockFace.WEST);
-            blocks[4] = c.getRelative(BlockFace.NORTH_EAST);
-            blocks[5] = c.getRelative(BlockFace.NORTH_WEST);
-            blocks[6] = c.getRelative(BlockFace.SOUTH_EAST);
-            blocks[7] = c.getRelative(BlockFace.SOUTH_WEST);
-            blocks[8] = down.getRelative(BlockFace.NORTH);
-            blocks[9] = down.getRelative(BlockFace.SOUTH);
-            blocks[10] = down.getRelative(BlockFace.EAST);
-            blocks[11] = down.getRelative(BlockFace.WEST);
-            blocks[12] = down.getRelative(BlockFace.NORTH_EAST);
-            blocks[13] = down.getRelative(BlockFace.NORTH_WEST);
-            blocks[14] = down.getRelative(BlockFace.SOUTH_EAST);
-            blocks[15] = down.getRelative(BlockFace.SOUTH_WEST);
-            blocks[16] = top.getRelative(BlockFace.NORTH);
-            blocks[17] = top.getRelative(BlockFace.SOUTH);
-            blocks[18] = top.getRelative(BlockFace.EAST);
-            blocks[19] = top.getRelative(BlockFace.WEST);
-            blocks[20] = top.getRelative(BlockFace.NORTH_EAST);
-            blocks[21] = top.getRelative(BlockFace.NORTH_WEST);
-            blocks[22] = top.getRelative(BlockFace.SOUTH_EAST);
-            blocks[23] = top.getRelative(BlockFace.SOUTH_WEST);
-            blocks[24] = c;
-            blocks[25] = top;
-            blocks[26] = down;
+            blocks.add(c.getRelative(BlockFace.NORTH));
+            blocks.add(c.getRelative(BlockFace.SOUTH));
+            blocks.add(c.getRelative(BlockFace.EAST));
+            blocks.add(c.getRelative(BlockFace.WEST));
+            blocks.add(c.getRelative(BlockFace.NORTH_EAST));
+            blocks.add(c.getRelative(BlockFace.NORTH_WEST));
+            blocks.add(c.getRelative(BlockFace.SOUTH_EAST));
+            blocks.add(c.getRelative(BlockFace.SOUTH_WEST));
+            blocks.add(down.getRelative(BlockFace.NORTH));
+            blocks.add(down.getRelative(BlockFace.SOUTH));
+            blocks.add(down.getRelative(BlockFace.EAST));
+            blocks.add(down.getRelative(BlockFace.WEST));
+            blocks.add(down.getRelative(BlockFace.NORTH_EAST));
+            blocks.add(down.getRelative(BlockFace.NORTH_WEST));
+            blocks.add(down.getRelative(BlockFace.SOUTH_EAST));
+            blocks.add(down.getRelative(BlockFace.SOUTH_WEST));
+            blocks.add(top.getRelative(BlockFace.NORTH));
+            blocks.add(top.getRelative(BlockFace.SOUTH));
+            blocks.add(top.getRelative(BlockFace.EAST));
+            blocks.add(top.getRelative(BlockFace.WEST));
+            blocks.add(top.getRelative(BlockFace.NORTH_EAST));
+            blocks.add(top.getRelative(BlockFace.NORTH_WEST));
+            blocks.add(top.getRelative(BlockFace.SOUTH_EAST));
+            blocks.add(top.getRelative(BlockFace.SOUTH_WEST));
+            blocks.add(c);
+            blocks.add(top);
+            blocks.add(down);
             return blocks;
         }
         return null;

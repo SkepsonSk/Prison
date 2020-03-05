@@ -8,7 +8,16 @@ public enum Enchant {
     EFFICIENCY(Enchantment.DIG_SPEED),
     UNBREAKING(Enchantment.DURABILITY),
     FORTUNE(Enchantment.LOOT_BONUS_BLOCKS),
-    BLAST(EnchantRegister.BLAST_ENCHANTMENT);
+    BLAST(EnchantRegister.BLAST_ENCHANTMENT),
+
+    PROTECTION(Enchantment.PROTECTION_ENVIRONMENTAL),
+    FIRE_PROTECTION(Enchantment.PROTECTION_ENVIRONMENTAL),
+    PROTECTION_EXPLOSIONS(Enchantment.PROTECTION_EXPLOSIONS),
+    PROTECTION_PROJECTILE(Enchantment.PROTECTION_PROJECTILE),
+    THORNS(Enchantment.THORNS),
+
+    // Tego nie dodawać do CONFIGU
+    FLY(EnchantRegister.FLY_ENCHANTMENT);
 
     private Enchantment enchantment;
 

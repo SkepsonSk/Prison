@@ -19,9 +19,15 @@ public class VisitCellCommand implements CommandExecutor {
             return true;
         }
 
+        Player player = (Player) sender;
+
+        if (player.getWorld().getName().equals("envoy")){
+            ChatUtil.sendMessage(player, ChatUtil.fixColor("&cNie mozesz odwiedzic celi gracza bedac na przemycie."));
+            return true;
+        }
+
         if (args.length == 1) {
 
-            Player player = (Player) sender;
             Player prisoner = Bukkit.getPlayer(args[0]);
             if (prisoner == null || !prisoner.isOnline()){
                 ChatUtil.sendMessage(sender, ChatUtil.fixColor("&cTen wiezien jest OFFLINE."));

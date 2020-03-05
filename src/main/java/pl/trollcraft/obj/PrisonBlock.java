@@ -83,7 +83,7 @@ public class PrisonBlock {
             double enterPrice = conf.getDouble("blocks." + name + ".enterPrice");
             int enterBlocksMined = 0;
 
-            if (conf.contains("blocks." + name + ".enterBlocksMines"))
+            if (conf.contains("blocks." + name + ".enterBlocksMined"))
                 enterBlocksMined = conf.getInt("blocks." + name + ".enterBlocksMined");
 
             new PrisonBlock(name, next, enterPrice, enterBlocksMined);

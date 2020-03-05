@@ -8,7 +8,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import pl.trollcraft.Main;
+import pl.trollcraft.obj.booster.Booster;
 import pl.trollcraft.util.ChatUtil;
+import pl.trollcraft.util.Utils;
 import tesdev.Money.MoneyAPI;
 
 import java.util.ArrayList;
@@ -51,23 +53,36 @@ public class SellCommand implements CommandExecutor {
     private void sellAll(Player player) {
         Inventory inv = player.getInventory();
         Material m;
-        double sum = 0;
+        double sum = 0, s;
         ArrayList<ItemStack> rem = new ArrayList<>();
         for (int i = 0 ; i < inv.getContents().length ; i++) {
             ItemStack is = inv.getContents()[i];
             if (is == null) continue;
             m = is.getType();
-            if (SellingUtils.hasPrice(m)) {
-                sum += SellingUtils.getPrice(m, is.getData().getData()) * is.getAmount();
-                rem.add(is);
-            }
+            s = SellingUtils.getPrice(m, is.getData().getData(), true);
+
+            if (s == 0) continue;;
+
+            sum += s * is.getAmount();
+            rem.add(is);
         }
         for (ItemStack is : rem)
             inv.remove(is);
         rem.clear();
-        MoneyAPI.getInstance().addMoney(player, sum);
 
-        ChatUtil.sendMessage(player, ChatUtil.fixColor("&7Sprzedano surowce.\n&a&l+" + sum));
+        if (sum == 0){
+            ChatUtil.sendMessage(player, ChatUtil.fixColor("&cBrak surowcow do sprzedania."));
+            return;
+        }
+
+        double sumRounded = Utils.round(sum, 3);
+        double bonus = Booster.getBonus(player);
+        MoneyAPI.getInstance().addMoney(player, sumRounded * bonus);
+
+        if (bonus == 1)
+            ChatUtil.sendMessage(player, ChatUtil.fixColor("&7Sprzedano surowce.\n&a&l+" + sumRounded));
+        else
+            ChatUtil.sendMessage(player, ChatUtil.fixColor("&7Sprzedano surowce.\n&a&l+" + sumRounded + " * " + bonus + ", czyli " + (sumRounded*bonus)));
     }
 
 }

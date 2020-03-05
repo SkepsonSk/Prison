@@ -1,11 +1,19 @@
 package pl.trollcraft.util;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
+import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.wrappers.EnumWrappers;
+import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 public class Utils {
@@ -90,5 +98,34 @@ public class Utils {
 
         return itemStack;
     }
+
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
+    }
+
+    public static void send(String text, EnumWrappers.TitleAction titleAction, int f, int d, int o, Player player) {
+
+        ProtocolManager pm = ProtocolLibrary.getProtocolManager();
+        PacketContainer pc = pm.createPacket(PacketType.Play.Server.TITLE);
+        pc.getModifier().writeDefaults();
+        pc.getTitleActions().write(0, titleAction);
+        pc.getChatComponents().write(0, WrappedChatComponent.fromText(ChatUtil.fixColor(text)));
+        pc.getIntegers().write(0, f);
+        pc.getIntegers().write(1, d);
+        pc.getIntegers().write(2, o);
+
+        try {
+            ProtocolLibrary.getProtocolManager().sendServerPacket(player, pc);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException("Cannot send packet.", e);
+        }
+
+    }
+
 
 }

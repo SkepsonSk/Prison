@@ -1,0 +1,10 @@
+rtp:
+  center:
+    x: 335
+    z: -355
+  x:
+    min: -300
+    max: 300
+  z:
+    min: -300
+    max: 300

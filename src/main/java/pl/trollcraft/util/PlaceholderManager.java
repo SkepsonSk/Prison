@@ -41,7 +41,7 @@ public class PlaceholderManager extends PlaceholderExpansion {
         else if (iden.contains("block"))
             return PrisonBlock.getPlayerBlock(player).getName();
         else if (iden.contains("money"))
-            return String.valueOf(MoneyAPI.getInstance().getMoney(player));
+            return String.valueOf(Utils.round(MoneyAPI.getInstance().getMoney(player), 3));
         else if (iden.contains("tokens"))
             return String.valueOf(TockensAPI.getInstance().getTockens(player));
 

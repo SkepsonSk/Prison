@@ -1,11 +1,17 @@
 package pl.trollcraft.obj.enchanting;
 
+import org.bukkit.Bukkit;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import pl.trollcraft.util.ChatUtil;
 import pl.trollcraft.util.Debug;
 import pl.trollcraft.util.Utils;
+import pl.trollcraft.util.enchants.EnchantRegister;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class AvailableEnchant {
 
@@ -31,7 +37,37 @@ public class AvailableEnchant {
     public int getPrice() { return price; }
 
     public void apply(ItemStack itemStack) {
-        itemStack.addEnchantment(enchantment, level);
+
+        Bukkit.getConsoleSender().sendMessage(displayName);
+        Bukkit.getConsoleSender().sendMessage(enchantment.getName());
+
+        if (displayName.contains("Blast")){
+
+            ItemMeta itemMeta = itemStack.getItemMeta();
+            List<String> lore = itemMeta.getLore();
+
+            if (lore == null){
+                lore = new ArrayList<>();
+                lore.add(ChatUtil.fixColor("&7" + displayName + " " + Utils.roman(level)));
+            }
+            else {
+                Iterator<String> it = lore.iterator();
+                while (it.hasNext()){
+                    if (it.next().contains(displayName)){
+                        it.remove();
+                        break;
+                    }
+                }
+                lore.add(ChatUtil.fixColor("&7" + displayName + " " + Utils.roman(level)));
+
+            }
+
+            itemMeta.setLore(lore);
+            itemStack.setItemMeta(itemMeta);
+
+        }
+
+        itemStack.addUnsafeEnchantment(enchantment, level);
     }
 
     public static ArrayList<AvailableEnchant> getAvailableEnchants(ItemStack itemStack) {

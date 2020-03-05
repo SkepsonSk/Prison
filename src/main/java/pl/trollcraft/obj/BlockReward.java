@@ -1,13 +1,11 @@
 package pl.trollcraft.obj;
 
+import com.comphenix.protocol.wrappers.EnumWrappers;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import pl.trollcraft.Main;
-import pl.trollcraft.util.ChatUtil;
-import pl.trollcraft.util.Configs;
-import pl.trollcraft.util.MinersManager;
-import pl.trollcraft.util.Utils;
+import pl.trollcraft.util.*;
 import tesdev.Money.MoneyAPI;
 import tesdev.Money.TockensAPI;
 
@@ -36,13 +34,14 @@ public class BlockReward {
 
     public void reward(Player player) {
 
+        Utils.send(title, EnumWrappers.TitleAction.TITLE, 10, 30, 10, player);
+        Utils.send(subtitle, EnumWrappers.TitleAction.SUBTITLE, 10, 30, 10, player);
+
         if (money != 0) {
             MoneyAPI.getInstance().addMoney(player, money);
-            ChatUtil.sendMessage(player, ChatUtil.fixColor("&a&l+" + money));
         }
         if (tokens != 0) {
-            TockensAPI.getInstance().addTockens(player, money);
-            ChatUtil.sendMessage(player, ChatUtil.fixColor("&6&l+" + tokens));
+            TockensAPI.getInstance().addTockens(player, tokens);
         }
         if (itemStack != null)
             player.getInventory().addItem(itemStack);
@@ -67,6 +66,8 @@ public class BlockReward {
             ItemStack itemStack = null;
             if (conf.contains("rewards." + every + ".item"))
                 itemStack = Utils.deserialize(conf, "rewards." + every + ".item");
+
+            Debug.log("tokensss: " + tokens);
 
             new BlockReward(Integer.parseInt(every), title, subtitle, money, tokens, itemStack);
         } );

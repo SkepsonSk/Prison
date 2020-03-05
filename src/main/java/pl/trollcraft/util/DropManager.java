@@ -1,7 +1,7 @@
 package pl.trollcraft.util;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import pl.trollcraft.Main;
@@ -25,7 +25,6 @@ public class DropManager {
 
             if (fortuneData.containsKey(fortuneLvl)){
                 FortuneData fd = fortuneData.get(fortuneLvl);
-                Bukkit.getConsoleSender().sendMessage("Szczescie " + fortuneLvl);
                 itemStack.setAmount(fd.getAmount());
             }
 

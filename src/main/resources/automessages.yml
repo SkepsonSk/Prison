@@ -1,0 +1,6 @@
+automessages:
+  interval: 30 # seconds
+  messages:
+    - 'Witaj na PRISON!'
+
+players: {}

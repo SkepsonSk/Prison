@@ -5,6 +5,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import pl.trollcraft.obj.cells.Cell;
 import pl.trollcraft.obj.cells.PendingVisit;
 import pl.trollcraft.util.ChatUtil;
 
@@ -44,7 +45,9 @@ public class AccpetVisitCommand implements CommandExecutor {
             }
 
             if (PendingVisit.accept(player, visitor)){
-                ChatUtil.sendMessage(sender, ChatUtil.fixColor("&aZaakceptowano prosbe odwiedzin tego wieznia."));
+                ChatUtil.sendMessage(player, ChatUtil.fixColor("&aZaakceptowano prosbe odwiedzin wieznia " + visitor.getName()));
+                ChatUtil.sendMessage(visitor, ChatUtil.fixColor("&aWiezien " + player.getName() + " zaakceptowal prosbe odwiedzin."));
+                Cell.get(player).teleport(visitor);
                 return true;
             }
             else{

@@ -71,6 +71,7 @@ public class InteractionListener implements Listener {
         if (!(b.getState() instanceof Chest)) return;
         Chest chest = (Chest) b.getState();
         EnvoyChest envoyChest = EnvoyChest.get(chest);
+        if (!EnvoyChest.envoyOn()) return;
         if (envoyChest == null) return;
         if (envoyChest.hasBeenOpened()) return;
         envoyChest.spawnItems(chest);
@@ -92,15 +93,34 @@ public class InteractionListener implements Listener {
         event.setCancelled(true);
         Player player = event.getPlayer();
 
-        ItemStack key = player.getItemInHand();
+        ItemStack key = player.getItemInHand().clone();
+        key.setAmount(1);
         if (lootChest.keyMatches(key)){
+
+            if (player.getItemInHand().getAmount() == 1)
+                player.setItemInHand(new ItemStack(Material.AIR));
+            else
+                player.getItemInHand().setAmount(player.getItemInHand().getAmount() - 1);
+
             lootChest.open(player);
+
             ChatUtil.sendMessage(player, ChatUtil.fixColor("&aOtworzono skrzynie."));
         }
         else{
             ChatUtil.sendMessage(player, ChatUtil.fixColor("&cTo nie jest wlasciwy klucz."));
         }
 
+
+    }
+
+    @EventHandler
+    public void onBarsInteract (PlayerInteractEvent event) {
+
+        if (event == null) return;
+        if (event.getClickedBlock() == null) return;
+
+        if (event.getClickedBlock().getType() == Material.IRON_FENCE)
+            event.setCancelled(true);
 
     }
 

@@ -1,48 +1,62 @@
 package pl.trollcraft.lootchests;
 
-import org.bukkit.inventory.ItemStack;
+import pl.trollcraft.lootchests.rewards.Reward;
+
+import java.util.Random;
 
 public class LootItem implements Comparable<LootItem> {
 
     public enum Rarity {
 
-        COMMON("&7Pospolita", 100),
-        UNCOMMON("&bNiepospolita", 75),
-        RARE("&eRzadka", 50),
-        UNIQUE("&cUnikalna", 30),
-        LEGENDARY("&6Legendarna", 10);
+        COMMON("&7Pospolita", 90, 100),
+        UNCOMMON("&bNiepospolita", 70, 90),
+        RARE("&eRzadka", 50, 70),
+        UNIQUE("&cUnikalna", 30, 50),
+        LEGENDARY("&6Legendarna", 10, 30);
+
+        private final Random RAND = new Random();
 
         private String name;
-        private float chance;
+        private double minChance;
+        private double maxChance;
 
-        Rarity(String name, float chance){
+        Rarity(String name, double minChance, double maxChance){
             this.name = name.replaceAll("&", "§");
-            this.chance = chance;
+            this.minChance = minChance;
+            this.maxChance = maxChance;
         }
 
-        public float getChance() { return chance; }
+        public String getName() { return name; }
+
+        public double getMinChance() { return minChance; }
+        public double getMaxChance() { return maxChance; }
+
+        public double getChance() {
+            return minChance + (maxChance - minChance) * RAND.nextDouble();
+        }
 
     }
 
-    private ItemStack itemStack;
+    private Reward reward;
     private Rarity rarity;
+    private double chance;
 
-    public LootItem (ItemStack itemStack, Rarity rarity) {
-        this.itemStack = itemStack;
+    public LootItem (Reward reward, Rarity rarity) {
+        this.reward = reward;
         this.rarity = rarity;
+        chance = rarity.getChance();
     }
 
-    public ItemStack getItemStack() { return itemStack; }
+    public Reward getReward() { return reward; }
     public Rarity getRarity() { return rarity; }
+    public double getChance() { return chance; }
 
     // -------- -------- -------- -------- -------- -------
 
     @Override
     public int compareTo(LootItem lootItem) {
-        float thisChance = rarity.chance;
-        float secoChance = lootItem.rarity.chance;
-        if (thisChance > secoChance) return 1;
-        else if (thisChance < secoChance) return -1;
+        if (chance > lootItem.chance) return 1;
+        else if (chance < lootItem.chance) return -1;
         else return 0;
     }
 

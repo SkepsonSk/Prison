@@ -1,3 +1,4 @@
 pass: 'klapkijudasza'
+autosellFactor: 1
 selling:
   - 'stone=20'

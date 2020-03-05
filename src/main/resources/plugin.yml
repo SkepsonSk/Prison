@@ -33,12 +33,6 @@ commands:
   cell:
     description: Cell
     aliases: [cela]
-  visit:
-    description: Visit Cell
-    aliases: [odwiedz]
-  accept:
-    description: Accept Visit
-    aliases: [pozwol]
   promote:
     description: Promote
     aliases: [awans]
@@ -47,7 +41,7 @@ commands:
     aliases: [enadm, envadm, envoyadm]
   envoy:
     description: Envoy
-    aliases: [zrzut, zrz, env, en]
+    aliases: [zrzut, zrz, env, en, przemyt, przem, prze]
   lootchest:
     description: Loot Chest
     aliases: [lc, lootc, lchest]
@@ -56,3 +50,13 @@ commands:
   shop:
     description: Shop
     aliases: [sklep]
+  kit:
+    description: Kit
+  boosteradmin:
+    description: BoosterAdmin
+    aliases: [boostera]
+  booster:
+    description: Booster
+    aliases: [buster, bst]
+  backpack:
+    description: Backpack

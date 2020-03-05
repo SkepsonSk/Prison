@@ -1,77 +1,99 @@
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/shop/Product.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/command/BlastCommand.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/command/cells/CellCommand.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/command/cells/VisitCellCommand.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/mineractions/MinerAction.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/util/AutoSell.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/cells/CellCreator.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/obj/Key.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/util/SchematicUtils.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/util/MinersManager.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/mineractions/actions/BlockBreakAction.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/util/DelayedWarp.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/listener/JoinListener.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/selling/SellingUtils.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/cells/VoidWorldChunkGenerator.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/command/PromoteCommand.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/obj/PlayerMoveDetectedEvent.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/util/enchants/EnchantRegister.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/mineractions/actions/RewardAction.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/obj/BlockReward.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/obj/cells/CellData.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/listener/SpawnListener.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/obj/enchanting/EnchantData.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/lootchests/LootItem.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/mineractions/MinerListener.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/util/Debug.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/command/GamemodeCommand.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/command/envoy/EnvoyCommand.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/command/envoy/EnvoyAdminCommand.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/command/EnchantCommand.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/mineractions/actions/AutoSellAction.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/envoy/EnvoyChest.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/util/GeneralUtil.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/util/DropManager.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/util/PlaceholderManager.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/mineractions/actions/MinedBlocksAction.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/lootchests/LootChest.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/lootchests/KeyDropChance.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/util/ChatUtil.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/obj/Item.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/obj/enchanting/EnchantGui.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/util/Configs.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/util/PrisonBlocksGui.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/listener/CommandListener.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/obj/cells/PendingVisit.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/obj/enchanting/AvailableEnchant.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/listener/InventoryListener.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/command/warp/SetWarpCommand.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/util/DatabaseHandler.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/obj/enchanting/Enchant.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/listener/MoveListener.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/command/LootChestCommand.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/obj/Booster.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/util/gui/Item.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/command/warp/WarpCommand.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/command/PickaxeCommand.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/listener/QuitListener.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/obj/PrisonBlock.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/Main.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/util/Utils.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/listener/InteractionListener.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/util/MoveDetect.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/obj/cells/CellNode.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/command/cells/AccpetVisitCommand.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/command/ShopCommand.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/obj/Warp.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/command/HelpopCommand.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/shop/Shop.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/obj/FortuneData.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/util/gui/GUI.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/command/FlyCommand.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/command/CellDebugCommand.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/util/enchants/BlastEnchantment.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/command/SpawnCommand.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/selling/SellCommand.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/obj/cells/Cell.java
-/home/jakub/Dokumenty/IDEA PROJECTS/Prison/src/main/java/pl/trollcraft/command/AutoSellCommand.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\command\warp\WarpCommand.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\obj\enchanting\Enchant.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\util\DatabaseHandler.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\backpacks\Backpack.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\command\BackpackCommand.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\listener\InteractionListener.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\util\GeneralUtil.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\obj\PlayerMoveDetectedEvent.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\util\AutoSell.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\obj\cells\Cell.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\command\envoy\EnvoyAdminCommand.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\listener\SpawnListener.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\selling\SellCommand.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\lootchests\rewards\ItemReward.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\util\MinersManager.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\command\CellDebugCommand.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\command\cells\AccpetVisitCommand.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\command\KitCommand.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\mineractions\actions\AutoSellAction.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\command\FlyCommand.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\obj\enchanting\EnchantData.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\listener\QuitListener.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\Main.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\util\enchants\FlyEnchant.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\mineractions\actions\RewardAction.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\command\boosters\BoosterAdminCommand.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\obj\booster\Booster.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\mineractions\MinerListener.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\obj\Item.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\util\ChatUtil.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\util\Utils.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\command\ShopCommand.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\command\GamemodeCommand.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\envoy\EnvoyItem.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\obj\enchanting\AvailableEnchant.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\obj\cells\CellNode.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\cells\VoidWorldChunkGenerator.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\obj\BlockReward.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\listener\MoveListener.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\selling\SellingUtils.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\lootchests\LootItem.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\lootchests\rewards\Reward.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\command\warp\SetWarpCommand.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\mineractions\MinerAction.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\obj\booster\PlayerBooster.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\obj\FortuneData.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\util\gui\GUI.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\command\PickaxeCommand.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\command\BlastCommand.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\obj\cells\CellData.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\command\envoy\EnvoyCommand.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\util\PrisonBlocksGui.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\command\chat\MessageCommand.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\cells\CellCreator.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\obj\PrisonBlock.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\util\Debug.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\mineractions\actions\MinedBlocksAction.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\command\SpawnCommand.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\command\LootChestCommand.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\obj\Key.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\listener\JoinListener.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\util\gui\Item.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\shop\Product.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\mineractions\MineExecutor.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\util\MoveDetect.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\util\PlaceholderManager.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\rtp\RandomTeleport.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\backpacks\BackpackListener.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\util\DropManager.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\obj\cells\PendingVisit.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\command\cells\VisitCellCommand.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\command\EnchantCommand.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\obj\booster\GlobalBooster.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\obj\enchanting\EnchantGui.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\util\enchants\FortuneEnchant.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\lootchests\KeyDropChance.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\lootchests\LootChest.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\util\DelayedWarp.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\listener\CommandListener.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\obj\ItemPrice.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\chat\ChatManager.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\util\SchematicUtils.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\command\boosters\BoosterCommand.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\mineractions\actions\BlockBreakAction.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\envoy\EnvoyChest.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\rtp\Position.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\util\Configs.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\command\PromoteCommand.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\command\cells\CellCommand.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\command\HelpopCommand.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\chat\AutoMessages.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\lootchests\rewards\CommandReward.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\util\enchants\BlastEnchantment.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\listener\BlockPlaceListener.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\obj\Warp.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\command\AutoSellCommand.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\shop\Shop.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\util\enchants\EnchantRegister.java
+C:\Users\arab0\IdeaProjects\Prison\src\main\java\pl\trollcraft\listener\InventoryListener.java

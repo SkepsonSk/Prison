@@ -36,6 +36,7 @@ public class PromoteCommand implements CommandExecutor {
         double money = api.getMoney(player);
         int blocksMined = MinersManager.get(player);
 
+
         if (money >= price){
 
             if (blocksMined >= blocks){

@@ -7,6 +7,7 @@ import java.lang.reflect.Field;
 public class EnchantRegister {
 
     public static final BlastEnchantment BLAST_ENCHANTMENT = new BlastEnchantment();
+    public static final FlyEnchant FLY_ENCHANTMENT = new FlyEnchant();
 
     public static void register() {
 
@@ -17,6 +18,7 @@ public class EnchantRegister {
             acceptingNew.set(null, true);
 
             Enchantment.registerEnchantment(BLAST_ENCHANTMENT);
+            Enchantment.registerEnchantment(FLY_ENCHANTMENT);
         }
         catch (IllegalAccessException e) { e.printStackTrace(); }
         catch (IllegalStateException e) { e.printStackTrace(); }

@@ -1,5 +1,7 @@
 package pl.trollcraft.lootchests;
 
+import com.gmail.filoghost.holographicdisplays.api.Hologram;
+import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -12,6 +14,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import pl.trollcraft.Main;
+import pl.trollcraft.lootchests.rewards.CommandReward;
+import pl.trollcraft.lootchests.rewards.ItemReward;
+import pl.trollcraft.lootchests.rewards.Reward;
 import pl.trollcraft.util.Configs;
 import pl.trollcraft.util.Debug;
 import pl.trollcraft.util.gui.GUI;
@@ -26,21 +31,26 @@ public class LootChest{
     private class Session {
 
         private GUI gui;
+        private Player player;
         private LootChest lootChest;
         private int animations;
-        private ItemStack reward;
+        private Reward reward;
+        private ItemStack lastItem;
 
-        public Session(GUI gui, LootChest lootChest, int animations){
+        public Session(GUI gui, Player player, LootChest lootChest, int animations){
             this.gui = gui;
+            this.player = player;
             this.lootChest = lootChest;
             this.animations = animations;
             reward = getReward();
+            lastItem = null;
         }
 
-        private ItemStack getReward() {
-            int chance = RAND.nextInt(100);
+        private Reward getReward() {
+            double c = 0 + (100 - 0) * RAND.nextDouble();
             for (LootItem li : lootChest.lootItems){
-                if (chance <= li.getRarity().getChance()) return li.getItemStack();
+                if (c <= li.getChance())
+                    return li.getReward();
             }
             return null;
         }
@@ -76,7 +86,11 @@ public class LootChest{
     // --------- -------- -------- -------- -------- --------
 
     public void addLootItem(ItemStack itemStack, LootItem.Rarity rarity) {
-        lootItems.add(new LootItem(itemStack, rarity));
+        lootItems.add(new LootItem(new ItemReward(itemStack), rarity));
+    }
+
+    public void addLootCommand(String name, String command, LootItem.Rarity rarity) {
+        lootItems.add(new LootItem(new CommandReward(name, command), rarity));
     }
 
     public int getId() { return id; }
@@ -91,8 +105,10 @@ public class LootChest{
         return itemStack.equals(key);
     }
 
-    public ItemStack getRandomItemStack() {
-        ItemStack r = lootItems.get(RAND.nextInt(lootItems.size())).getItemStack();
+    public ItemStack getRandomItemStack(ItemStack last) {
+        ItemStack r = lootItems.get(RAND.nextInt(lootItems.size())).getReward().getItem();
+        while (r.equals(last))
+            r = lootItems.get(RAND.nextInt(lootItems.size())).getReward().getItem();
         return r;
     }
 
@@ -100,7 +116,7 @@ public class LootChest{
 
     public void open(Player player) {
         GUI gui = new GUI(27, name.replaceAll("_", " "));
-        sessions.add(new Session(gui, this, 15));
+        sessions.add(new Session(gui, player, this, 15));
         gui.open(player);
         invokeAnimator();
     }
@@ -123,13 +139,21 @@ public class LootChest{
         for (int i = 0 ; i < lootItems.size() ; i++){
 
             item = lootItems.get(i);
-            conf.set("lootchests." + id + ".lootitems." + i + ".itemStack", item.getItemStack());
             conf.set("lootchests." + id + ".lootitems." + i + ".rarity", item.getRarity().name().toUpperCase());
+
+            if (item.getReward() instanceof ItemReward){
+                conf.set("lootchests." + id + ".lootitems." + i + ".type", "itemstack");
+                conf.set("lootchests." + id + ".lootitems." + i + ".itemstack", item.getReward().getItem());
+            }
+            else if (item.getReward() instanceof CommandReward){
+                conf.set("lootchests." + id + ".lootitems." + i + ".type", "command");
+                conf.set("lootchests." + id + ".lootitems." + i + ".name",  ((CommandReward) item.getReward()).getName() );
+                conf.set("lootchests." + id + ".lootitems." + i + ".command", ((CommandReward) item.getReward()).getCommand());
+            }
 
         }
 
         Configs.save(conf, "lootchests.yml");
-
     }
 
     // --------- -------- -------- -------- -------- --------
@@ -147,7 +171,23 @@ public class LootChest{
                     Session s = it.next();
 
                     if (s.animations == 0) {
-                        s.gui.addItem(13, s.reward, null);
+
+                        if (s.reward instanceof CommandReward){
+
+                            s.gui.addItem(13, s.reward.getItem(), event -> {
+                                event.setCancelled(true);
+                                s.reward.give(s.player);
+                                s.player.closeInventory();
+                            });
+
+                        }
+                        else if (s.reward instanceof ItemReward){
+                            s.gui.addItem(13, s.reward.getItem(), event -> {
+                                event.setCancelled(true);
+                                s.reward.give(s.player);
+                                s.player.closeInventory();
+                            });
+                        }
 
                         s.gui.addItem(15, new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 4), click);
                         s.gui.addItem(11, new ItemStack(Material.STAINED_GLASS_PANE, 1, (byte) 4), click);
@@ -158,7 +198,7 @@ public class LootChest{
                         continue;
                     }
 
-                    s.gui.addItem(13, s.lootChest.getRandomItemStack(), click);
+                    s.gui.addItem(13, s.lootChest.getRandomItemStack(s.lastItem), click);
                     s.gui.update();
                     s.animations--;
                 }
@@ -209,7 +249,7 @@ public class LootChest{
         YamlConfiguration conf = Configs.load("lootchests.yml", Main.getInstance());
         conf.getConfigurationSection("lootchests").getKeys(false).forEach( id -> {
 
-            String name = conf.getString("lootchests." + id + ".name");
+            String name = conf.getString("lootchests." + id + ".name").replaceAll("&", "§");
             int x = conf.getInt("lootchests." + id + ".x");
             int y = conf.getInt("lootchests." + id + ".y");
             int z = conf.getInt("lootchests." + id + ".z");
@@ -227,16 +267,35 @@ public class LootChest{
             ArrayList<LootItem> lootItems = new ArrayList<>();
 
             conf.getConfigurationSection("lootchests." + id + ".lootitems").getKeys(false).forEach( ord -> {
-                ItemStack is = conf.getItemStack("lootchests." + id + ".lootitems." + ord + ".itemStack");
+
                 LootItem.Rarity rarity = LootItem.Rarity.valueOf(conf.getString("lootchests." + id + ".lootitems." + ord + ".rarity"));
-                lootItems.add(new LootItem(is, rarity));
+                String type = conf.getString("lootchests." + id + ".lootitems." + ord + ".type");
+
+                Reward reward = null;
+                if (type.equals("itemstack")){
+                    reward = new ItemReward(conf.getItemStack("lootchests." + id + ".lootitems." + ord + ".itemstack"));
+                }
+                else if (type.equals("command")){
+                    String commandName = conf.getString("lootchests." + id + ".lootitems." + ord + ".name").replaceAll("_", " ");
+                    String command = conf.getString("lootchests." + id + ".lootitems." + ord + ".command");
+                    reward = new CommandReward(commandName, command);
+                }
+
+                lootItems.add(new LootItem(reward, rarity));
+
             } );
+
+            Collections.sort(lootItems);
 
             chances.add(new KeyDropChance(new LootChest(Integer.parseInt(id), name, chest, key, keyDropChance, lootItems)));
 
+            Hologram holo = HologramsAPI.createHologram(Main.getInstance(), chest.getLocation().add(0.5, 3, 0.5));
+            holo.appendItemLine(key);
+            holo.appendTextLine(name.replaceAll("_", " "));
         } );
 
         Collections.sort(chances);
+
     }
 
 }

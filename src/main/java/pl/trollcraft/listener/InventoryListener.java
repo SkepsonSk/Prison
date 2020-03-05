@@ -1,6 +1,5 @@
 package pl.trollcraft.listener;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -21,6 +20,8 @@ public class InventoryListener implements Listener {
 
         Player player = (Player) event.getWhoClicked();
         GUI gui = GUI.getOpened(player);
+
+        if (gui == null) return;
         Consumer<InventoryClickEvent> click = gui.getClick(event.getSlot());
 
         if (click != null)

@@ -29,7 +29,9 @@ public class Cell {
 
     public Player getPlayer() { return player; }
     public Location getLocation() { return location; }
+
     public void teleport() { player.teleport(location); }
+    public void teleport(Player p) { p.teleport(location); }
 
     public void save() {
         YamlConfiguration conf = Configs.load("cells.yml", Main.getInstance());

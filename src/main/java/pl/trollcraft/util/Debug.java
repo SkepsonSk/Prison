@@ -11,4 +11,8 @@ public class Debug {
         console.sendMessage(a.replace("&", "§"));
     }
 
+    public static void log(Object a) {
+        console.sendMessage(String.valueOf(a).replace("&", "§"));
+    }
+
 }

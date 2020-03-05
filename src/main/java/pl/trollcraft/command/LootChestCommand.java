@@ -62,10 +62,10 @@ public class LootChestCommand implements CommandExecutor {
             ChatUtil.sendMessage(player, ChatUtil.fixColor("&aSkrzynia utworzona."));
             return true;
         }
-        else if (args[0].equalsIgnoreCase("add")){
+        else if (args[0].equalsIgnoreCase("addItem")){
 
             if (args.length != 2) {
-                ChatUtil.sendMessage(player, ChatUtil.fixColor("&7Uzycie: &7/lc add <rzadkosc>"));
+                ChatUtil.sendMessage(player, ChatUtil.fixColor("&7Uzycie: &7/lc addItem <rzadkosc>"));
                 return true;
             }
 
@@ -94,6 +94,38 @@ public class LootChestCommand implements CommandExecutor {
             ChatUtil.sendMessage(player, ChatUtil.fixColor("&aPrzedmiot zostal dodany."));
             return true;
         }
+        else if (args[0].equalsIgnoreCase("addCommand")) {
+
+            if (args.length != 4) {
+                ChatUtil.sendMessage(player, ChatUtil.fixColor("&7Uzycie: &7/lc addCommand <nazwa> <komenda> <rzadkosc>"));
+                return true;
+            }
+
+            Block b = player.getTargetBlock((Set<Material>) null, 3);
+            if (!(b.getState() instanceof Chest)){
+                ChatUtil.sendMessage(player, ChatUtil.fixColor("&cTo nie skrzynia."));
+                return true;
+            }
+
+            Chest chest = (Chest) b.getState();
+            LootChest lootChest = LootChest.get(chest);
+
+            if (lootChest == null){
+                ChatUtil.sendMessage(sender, ChatUtil.fixColor("&cTa skrzynia nie jest zarejestrowana."));
+                return true;
+            }
+
+            String name = args[1];
+            String cmd = args[2];
+
+            LootItem.Rarity rarity = LootItem.Rarity.valueOf(args[3].toUpperCase());
+            lootChest.addLootCommand(name.replaceAll("_", " "), cmd, rarity);
+
+            ChatUtil.sendMessage(player, ChatUtil.fixColor("&aKomenda zostala dodana."));
+            return true;
+
+        }
+
         else if (args[0].equalsIgnoreCase("key")){
 
             Block b = player.getTargetBlock((Set<Material>) null, 3);
@@ -140,7 +172,6 @@ public class LootChestCommand implements CommandExecutor {
             double chance = Double.parseDouble(args[1]);
 
 
-
         }
         else if (args[0].equalsIgnoreCase("save")) {
 
@@ -154,17 +185,15 @@ public class LootChestCommand implements CommandExecutor {
             LootChest lootChest = LootChest.get(chest);
 
             if (lootChest == null){
-
                 ChatUtil.sendMessage(player, ChatUtil.fixColor("&cTa skrzynia nie jest zarejestrowana!"));
                 return true;
-
             }
 
             lootChest.save();
 
-            Hologram holo = HologramsAPI.createHologram(Main.getInstance(), chest.getLocation().add(0, 2, 0));
-            holo.appendItemLine(lootChest.getKey());
+            Hologram holo = HologramsAPI.createHologram(Main.getInstance(), chest.getLocation().add(0.5, 4, 0.5));
             holo.appendTextLine(lootChest.getName().replaceAll("_", " "));
+            holo.appendItemLine(lootChest.getKey());
 
             ChatUtil.sendMessage(player, ChatUtil.fixColor("&aZapisano skrzynie!"));
             return true;

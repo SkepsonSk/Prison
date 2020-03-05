@@ -1,6 +1,8 @@
 package pl.trollcraft.obj;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import pl.trollcraft.Main;
@@ -27,12 +29,14 @@ public class Warp {
     public boolean isLocked() { return locked; }
 
     public void teleport(Player player) {
+        if (location.getWorld() == null) player.sendMessage("sie zjebao");
         if (!location.getChunk().isLoaded()) location.getChunk().load();
         player.teleport(location);
     }
 
     public void save() {
         YamlConfiguration conf = Configs.load("warps.yml", Main.getInstance());
+        conf.set("warps." + name + ".world", location.getWorld().getName());
         conf.set("warps." + name + ".loc", ChatUtil.locToString(location));
         conf.set("warps." + name + ".locked", locked);
         Configs.save(conf, "warps.yml");
@@ -48,7 +52,14 @@ public class Warp {
     public static void load() {
         YamlConfiguration conf = Configs.load("warps.yml", Main.getInstance());
         conf.getConfigurationSection("warps").getKeys(false).forEach( name -> {
+
             Location loc = ChatUtil.locFromString(conf.getString("warps." + name + ".loc"));
+
+            if (conf.contains("warps." + name + ".world")){
+                World world = Bukkit.getWorld(conf.getString("warps." + name + ".world"));
+                loc = new Location(world, loc.getX(), loc.getY(), loc.getZ());
+            }
+
             boolean locked = conf.getBoolean("warps." + name + ".locked");
             new Warp(name, loc, locked);
         } );
