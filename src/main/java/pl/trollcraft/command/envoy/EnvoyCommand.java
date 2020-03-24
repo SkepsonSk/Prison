@@ -23,14 +23,23 @@ public class EnvoyCommand implements CommandExecutor {
                 return true;
             }
 
-            ChatUtil.sendMessage(player, ChatUtil.fixColor("&7Przenoszenie na przemyt...\n&eWyszukiwanie miejsca..."));
+            long stops = EnvoyChest.whenStops() - System.currentTimeMillis();
+            long m = stops / 1000 / 60;
+            long s = stops / 1000 % 60;
+            String sec = String.valueOf(s);
+            if (s < 10) sec = "0" + sec;
+
+            player.setAllowFlight(false);
+            player.setFlying(false);
+
+            ChatUtil.sendMessage(player, ChatUtil.fixColor("&7Przenoszenie na przemyt...\n&eWyszukiwanie miejsca...\n&7Zrzut potrwa jeszcze &e" + m + ":" + sec));
+
             RandomTeleport.teleport(player, Bukkit.getWorld("envoy"));
         }
         else{
             long next = EnvoyChest.whenNext() - System.currentTimeMillis();
             long m = next / 1000 / 60;
             long s = next / 1000 % 60;
-
             String sec = String.valueOf(s);
             if (s < 10) sec = "0" + sec;
 

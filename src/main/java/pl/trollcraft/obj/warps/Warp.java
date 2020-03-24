@@ -1,4 +1,4 @@
-package pl.trollcraft.obj;
+package pl.trollcraft.obj.warps;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -32,6 +32,7 @@ public class Warp {
         if (location.getWorld() == null) player.sendMessage("sie zjebao");
         if (!location.getChunk().isLoaded()) location.getChunk().load();
         player.teleport(location);
+        Bukkit.getPluginManager().callEvent(new PlayerWarpEvent(player, this));
     }
 
     public void save() {

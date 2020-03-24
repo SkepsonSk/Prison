@@ -8,23 +8,26 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import pl.trollcraft.backpacks.Backpack;
 import pl.trollcraft.backpacks.BackpackListener;
 import pl.trollcraft.cells.VoidWorldChunkGenerator;
 import pl.trollcraft.chat.AutoMessages;
 import pl.trollcraft.chat.ChatManager;
 import pl.trollcraft.command.*;
+import pl.trollcraft.command.anvil.RenameItemStackCommand;
 import pl.trollcraft.command.boosters.BoosterAdminCommand;
 import pl.trollcraft.command.boosters.BoosterCommand;
-import pl.trollcraft.command.cells.AccpetVisitCommand;
 import pl.trollcraft.command.cells.CellCommand;
-import pl.trollcraft.command.cells.VisitCellCommand;
+import pl.trollcraft.command.chat.BroadcastCommand;
+import pl.trollcraft.command.chat.ChatCommand;
 import pl.trollcraft.command.chat.MessageCommand;
 import pl.trollcraft.command.envoy.EnvoyAdminCommand;
 import pl.trollcraft.command.envoy.EnvoyCommand;
+import pl.trollcraft.command.lootchests.LootChestCommand;
+import pl.trollcraft.command.lootchests.LootChestConsoleCommand;
 import pl.trollcraft.command.warp.SetWarpCommand;
 import pl.trollcraft.command.warp.WarpCommand;
 import pl.trollcraft.envoy.EnvoyChest;
-import pl.trollcraft.envoy.EnvoyItem;
 import pl.trollcraft.listener.*;
 import pl.trollcraft.lootchests.LootChest;
 import pl.trollcraft.mineractions.MineExecutor;
@@ -38,7 +41,7 @@ import pl.trollcraft.obj.PrisonBlock;
 import pl.trollcraft.obj.booster.Booster;
 import pl.trollcraft.obj.cells.CellNode;
 import pl.trollcraft.obj.cells.PendingVisit;
-import pl.trollcraft.obj.Warp;
+import pl.trollcraft.obj.warps.Warp;
 import pl.trollcraft.obj.enchanting.EnchantData;
 import pl.trollcraft.rtp.RandomTeleport;
 import pl.trollcraft.selling.SellCommand;
@@ -79,7 +82,7 @@ public class Main extends JavaPlugin {
         DropManager.load();
         EnvoyChest.ENVOY_WORLD = Bukkit.getWorld("envoy");
         EnvoyChest.loadEnvoyChests();
-        EnvoyItem.loadEnvoyItems();
+        EnvoyChest.loadEnvoyItems();
         EnvoyChest.init();
         LootChest.load();
         Shop.load();
@@ -87,6 +90,7 @@ public class Main extends JavaPlugin {
         Booster.listen();
         RandomTeleport.init();
         AutoMessages.init();
+        FlyManager.listen();
 
         new PlaceholderManager().register();
 
@@ -119,6 +123,11 @@ public class Main extends JavaPlugin {
         getCommand("boosteradmin").setExecutor(new BoosterAdminCommand());
         getCommand("booster").setExecutor(new BoosterCommand());
         getCommand("backpack").setExecutor(new BackpackCommand());
+        getCommand("chat").setExecutor(new ChatCommand());
+        getCommand("message").setExecutor(new MessageCommand());
+        getCommand("broadcast").setExecutor(new BroadcastCommand());
+        getCommand("lootchestkeys").setExecutor(new LootChestConsoleCommand());
+        getCommand("rename").setExecutor(new RenameItemStackCommand());
 
         getServer().getPluginManager().registerEvents(new MoveListener(), this);
         getServer().getPluginManager().registerEvents(new MinerListener(), this);
@@ -127,7 +136,6 @@ public class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new QuitListener(), this);
         getServer().getPluginManager().registerEvents(new InteractionListener(), this);
         getServer().getPluginManager().registerEvents(new CommandListener(), this);
-        getServer().getPluginManager().registerEvents(new SpawnListener(), this);
         getServer().getPluginManager().registerEvents(new ChatManager(), this);
         getServer().getPluginManager().registerEvents(new BlockPlaceListener(), this);
         getServer().getPluginManager().registerEvents(new BackpackListener(), this);
@@ -149,6 +157,9 @@ public class Main extends JavaPlugin {
 
         for (Player player : Bukkit.getOnlinePlayers())
             MinersManager.save(player);
+
+        for (Backpack backpack : Backpack.getBackpacks())
+            backpack.saveSync();
     }
 
     private static void setWorldGuardPlugin() {

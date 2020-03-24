@@ -1,6 +1,5 @@
 package pl.trollcraft.listener;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -17,8 +16,6 @@ import pl.trollcraft.lootchests.LootChest;
 import pl.trollcraft.util.ChatUtil;
 
 public class InteractionListener implements Listener {
-
-    private final static String KEY_ITEM_DISPLAYNAME = "§7§lKlucz do CELI";
 
     @EventHandler
     public void onEndPortalInteraction (PlayerInteractEvent event) {
@@ -114,13 +111,28 @@ public class InteractionListener implements Listener {
     }
 
     @EventHandler
-    public void onBarsInteract (PlayerInteractEvent event) {
+    public void onCellInteract (PlayerInteractEvent event) {
+        if (!event.getPlayer().getWorld().getName().equals("cells")) return;
 
         if (event == null) return;
         if (event.getClickedBlock() == null) return;
 
-        if (event.getClickedBlock().getType() == Material.IRON_FENCE)
+        Material m = event.getClickedBlock().getType();
+        if (m == Material.IRON_FENCE || m == Material.GLOWSTONE)
             event.setCancelled(true);
+
+    }
+
+    @EventHandler
+    public void onAnvilInteract (PlayerInteractEvent event) {
+        if (event == null) return;
+        if (event.getClickedBlock() == null) return;
+
+        Material m = event.getClickedBlock().getType();
+        if (m == Material.ANVIL) {
+            event.setCancelled(true);
+            ChatUtil.sendMessage(event.getPlayer(), ChatUtil.fixColor("&cAby zmienic nazwe przedmiotu, uzyj &e/nazwa <nazwa>"));
+        }
 
     }
 

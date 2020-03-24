@@ -60,3 +60,17 @@ commands:
     aliases: [buster, bst]
   backpack:
     description: Backpack
+  chat:
+    description: Chat
+  message:
+    description: Message
+    aliases: [msg, tell]
+  broadcast:
+    description: Broadcast
+    aliases: [say, announce, annou, annc, say]
+  lootchestkeys:
+    description: Loot Chest keys.
+    aliases: [lck]
+  rename:
+    description: Rename.
+    aliases: [nazwa]

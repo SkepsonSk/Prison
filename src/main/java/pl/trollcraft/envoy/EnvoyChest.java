@@ -2,6 +2,8 @@ package pl.trollcraft.envoy;
 
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -12,9 +14,10 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import pl.trollcraft.Main;
-import pl.trollcraft.obj.Warp;
+import pl.trollcraft.obj.warps.Warp;
 import pl.trollcraft.util.ChatUtil;
 import pl.trollcraft.util.Configs;
+import pl.trollcraft.util.Debug;
 
 import java.util.*;
 
@@ -24,9 +27,10 @@ public class EnvoyChest {
     private static long stops;
 
     public static World ENVOY_WORLD;
-    public static final Random RANDOM = new Random();
+    public static final Random RAND = new Random();
 
     private static ArrayList<EnvoyChest> chests = new ArrayList<>();
+    private static Multimap<Double, ItemStack> loot = ArrayListMultimap.create();
 
     private int x, y, z;
     private boolean opened;
@@ -58,7 +62,7 @@ public class EnvoyChest {
     public void spawnItems(Chest chest) {
         Inventory inv = chest.getBlockInventory();
         inv.clear();
-        int slot = RANDOM.nextInt(24);
+        int slot = RAND.nextInt(24);
         inv.setItem(slot, getRandomItemStack());
     }
 
@@ -74,6 +78,7 @@ public class EnvoyChest {
         if (ENVOY_WORLD == null) ENVOY_WORLD = Bukkit.getWorld("envoy");
 
         if (envoy) return;
+
         for (EnvoyChest e : chests) {
 
             if (e.hologram == null)
@@ -132,26 +137,54 @@ public class EnvoyChest {
             public void run() {
 
                 if (envoy){
-                    if (System.currentTimeMillis() >= stops) stopEnvoy();
+                    if (System.currentTimeMillis() >= stops){
+                        new BukkitRunnable() {
+                            @Override
+                            public void run() {
+                                stopEnvoy();
+                            }
+                        }.runTask(Main.getInstance());
+                    }
                 }
                 else {
-                    if (System.currentTimeMillis() >= next) startEnvoy();
+                    if (System.currentTimeMillis() >= next){
+                        new BukkitRunnable() {
+                            @Override
+                            public void run() {
+                                startEnvoy();
+                            }
+                        }.runTask(Main.getInstance());
+                    }
                 }
 
             }
 
-        }.runTaskTimer(Main.getInstance(), 1000L * 2L, 5L * 1000L);
+        }.runTaskTimerAsynchronously(Main.getInstance(), 20, 20 * 10);
     }
 
     private static ItemStack getRandomItemStack() {
-        double c = 100 * RANDOM.nextDouble();
+        double c = 0 + (100 - 0) * RAND.nextDouble();
 
-        ArrayList<EnvoyItem> envoyItems = EnvoyItem.getEnvoyItems();
+        ArrayList<ItemStack> items = null;
+        ArrayList<Double> chances = new ArrayList<>(loot.keySet());
 
-        for (EnvoyItem ei : envoyItems)
-            if (c <= ei.getChance()) return ei.getItemStack();
+        Collections.sort(chances);
 
-        return envoyItems.get(envoyItems.size() - 1).getItemStack();
+        for (double chance : chances){
+
+            Debug.log(chance);
+
+            if (c <= chance){
+                Debug.log("Selected: " + chance);
+                items = new ArrayList<>(loot.get(chance));
+                break;
+            }
+        }
+
+        if (items == null)
+            items = new ArrayList<>(loot.get(chances.get(chances.size() - 1)));
+
+        return items.get(RAND.nextInt(items.size()));
     }
 
     // -------- -------- -------- -------- -------- --------
@@ -192,6 +225,30 @@ public class EnvoyChest {
         conf.set("envoychests." + nextId + ".z", z);
         conf.set("nextId", nextId + 1);
         Configs.save(conf, "envoychests.yml");
+    }
+
+    // -------- -------- -------- -------- -------- --------
+
+    public static void registerItemStack(ItemStack itemStack, double chance) {
+        loot.put(chance, itemStack);
+        YamlConfiguration conf = Configs.load("envoyitems.yml", Main.getInstance());
+        int id = conf.getInt("nextId");
+        conf.set("envoyitems." + id + ".item", itemStack);
+        conf.set("envoyitems." + id + ".chance", chance);
+        conf.set("nextId", id + 1);
+        Configs.save(conf, "envoyitems.yml");
+    }
+
+    public static void loadEnvoyItems() {
+        Debug.log("LUKING");
+        YamlConfiguration conf = Configs.load("envoyitems.yml", Main.getInstance());
+        conf.getConfigurationSection("envoyitems").getKeys(false).forEach( s -> {
+            ItemStack itemStack = conf.getItemStack("envoyitems." + s + ".item");
+            double chance = conf.getDouble("envoyitems." + s + ".chance");
+            loot.put(chance, itemStack);
+            Debug.log(chance);
+        } );
+
     }
 
 }

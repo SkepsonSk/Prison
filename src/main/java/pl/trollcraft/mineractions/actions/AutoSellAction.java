@@ -12,6 +12,7 @@ import pl.trollcraft.util.AutoSell;
 import pl.trollcraft.util.DropManager;
 import pl.trollcraft.util.Utils;
 import tesdev.Money.MoneyAPI;
+import tesdev.Money.api.EconomyProfile;
 
 public class AutoSellAction extends MinerAction {
 
@@ -27,7 +28,7 @@ public class AutoSellAction extends MinerAction {
     }
 
     @Override
-    public void perform(Player player, Material material, byte data) {
+    public boolean perform(Player player, Material material, byte data) {
         int fortuneLvl = (int) getData("fortuneLvl");
 
         ItemStack itemStack = DropManager.getItem(material.getId(), data, fortuneLvl);
@@ -35,9 +36,13 @@ public class AutoSellAction extends MinerAction {
 
         if (SellingUtils.hasPrice(itemStack.getType())) {
             double mon = Utils.round(SellingUtils.getPrice(itemStack.getType(), itemStack.getData().getData(), false) * itemStack.getAmount() * SellingUtils.getAutosellFactor() * Booster.getBonus(player), 3);
-            MoneyAPI.getInstance().addMoney(player, mon);
+
+            EconomyProfile profile = EconomyProfile.get(player);
+            profile.addMoney(mon);
+
         } else player.getInventory().addItem(itemStack);
 
+        return true;
     }
 
 }

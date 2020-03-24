@@ -11,6 +11,7 @@ import pl.trollcraft.util.Debug;
 import pl.trollcraft.util.gui.GUI;
 import tesdev.Money.MoneyAPI;
 import tesdev.Money.TockensAPI;
+import tesdev.Money.api.EconomyProfile;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,12 +37,13 @@ public class EnchantGui {
                 event.setCancelled(true);
 
                 Player player = (Player) event.getWhoClicked();
-                double tokens = TockensAPI.getInstance().getTockens(player);
+                double tokens = EconomyProfile.FastAccess.getTokens(player);
 
                 if (tokens >= ae.getPrice()){
                     ae.apply(player.getItemInHand());
                     reload(player);
-                    TockensAPI.getInstance().removeTockens(player, ae.getPrice());
+                    EconomyProfile.FastAccess.takeTokens(player, ae.getPrice());
+                    //TockensAPI.getInstance().removeTockens(player, ae.getPrice());
                     ChatUtil.sendMessage(player, ChatUtil.fixColor("&7Zakupiono enchant!\n&c&l-" + ae.getPrice()));
                 }
                 else
@@ -71,7 +73,7 @@ public class EnchantGui {
 
         GUI gui = prepare(item);
 
-        int tokens = (int) TockensAPI.getInstance().getTockens(player);
+        int tokens = EconomyProfile.FastAccess.getTokens(player);
         ItemStack state = new ItemStack(Material.SKULL_ITEM);
         SkullMeta meta = (SkullMeta) state.getItemMeta();
         meta.setDisplayName("§7Token'y: §e" + tokens);
@@ -86,7 +88,7 @@ public class EnchantGui {
         GUI gui = GUI.getOpened(player);
         gui.clear();
 
-        int t = (int) TockensAPI.getInstance().getTockens(player);
+        int t = EconomyProfile.FastAccess.getTokens(player);
         ItemStack state = new ItemStack(Material.SKULL_ITEM);
         SkullMeta meta = (SkullMeta) state.getItemMeta();
         meta.setDisplayName("§7Token'y: §e" + t);
@@ -104,11 +106,11 @@ public class EnchantGui {
             Consumer<InventoryClickEvent> buy = event -> {
                 event.setCancelled(true);
 
-                double tokens = TockensAPI.getInstance().getTockens(player);
+                int tokens = EconomyProfile.FastAccess.getTokens(player);
 
                 if (tokens >= ae.getPrice()){
                     ae.apply(player.getItemInHand());
-                    TockensAPI.getInstance().removeTockens(player, ae.getPrice());
+                    EconomyProfile.FastAccess.takeTokens(player, ae.getPrice());
                     reload(player);
                     ChatUtil.sendMessage(player, ChatUtil.fixColor("&7Zakupiono enchant!\n&c&l-" + ae.getPrice()));
                 }

@@ -1,5 +1,6 @@
 package pl.trollcraft.command;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -9,6 +10,7 @@ import pl.trollcraft.util.ChatUtil;
 import pl.trollcraft.util.Debug;
 import pl.trollcraft.util.MinersManager;
 import tesdev.Money.MoneyAPI;
+import tesdev.Money.api.EconomyProfile;
 
 public class PromoteCommand implements CommandExecutor {
 
@@ -30,20 +32,26 @@ public class PromoteCommand implements CommandExecutor {
             return true;
         }
 
-        MoneyAPI api = MoneyAPI.getInstance();
         double price = next.getEnterPrice();
         int blocks = next.getEnterBlocksMined();
-        double money = api.getMoney(player);
+        double money = EconomyProfile.FastAccess.getMoney(player);
         int blocksMined = MinersManager.get(player);
-
 
         if (money >= price){
 
             if (blocksMined >= blocks){
                 PrisonBlock.unlock(player, next);
                 PrisonBlock.savePlayer(player);
+                EconomyProfile.FastAccess.takeMoney(player, price);
                 ChatUtil.sendMessage(player, "&aOdblokowano blok &e" + next.getName() + "!");
-                api.removeMoney(player, price);
+                String name = player.getName();
+                for (Player p : Bukkit.getOnlinePlayers()){
+                    if (p.getEntityId() == player.getEntityId()) {
+                        ChatUtil.sendMessage(p, "");
+                        ChatUtil.sendMessage(p, ChatUtil.fixColor("&7Wiezien &e" + name + " &7odblokowal block &e&l" + next.getName()));
+                        ChatUtil.sendMessage(p, "");
+                    }
+                }
             }
             else{
                 int missing = blocks - blocksMined;

@@ -4,11 +4,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import pl.trollcraft.mineractions.MineExecutor;
+import pl.trollcraft.backpacks.Backpack;
+import pl.trollcraft.chat.ChatProfile;
 import pl.trollcraft.obj.PrisonBlock;
 import pl.trollcraft.obj.booster.PlayerBooster;
 import pl.trollcraft.obj.cells.Cell;
-import pl.trollcraft.obj.Warp;
+import pl.trollcraft.obj.warps.Warp;
 import pl.trollcraft.util.AutoSell;
 import pl.trollcraft.util.ChatUtil;
 import pl.trollcraft.util.MinersManager;
@@ -22,6 +23,8 @@ public class JoinListener implements Listener {
         Cell.load(player);
         PrisonBlock.assignToPlayer(player);
         MinersManager.load(player);
+        Backpack.load(player);
+        ChatProfile.load(player);
 
         boolean hasBooster = PlayerBooster.load(player);
         if (hasBooster){

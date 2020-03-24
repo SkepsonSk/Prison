@@ -78,15 +78,14 @@ public class MinerListener implements Listener {
         ArrayList<Byte> data = new ArrayList<>(32);
 
         Block b;
-        int ind = 0;
         for (int i = 0 ; i < blocks.size() ; i++) {
 
             b = blocks.get(i);
+            if (b == null || b.getType() == Material.AIR) continue;
             if (canBreakBlocks(player, b)){
                 blocksCopy.add(b);
                 materials.add(b.getType());
                 data.add(b.getData());
-                ind++;
             }
 
         }

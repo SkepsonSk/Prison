@@ -8,6 +8,7 @@ import pl.trollcraft.Main;
 import pl.trollcraft.util.*;
 import tesdev.Money.MoneyAPI;
 import tesdev.Money.TockensAPI;
+import tesdev.Money.api.EconomyProfile;
 
 import java.util.ArrayList;
 
@@ -38,10 +39,10 @@ public class BlockReward {
         Utils.send(subtitle, EnumWrappers.TitleAction.SUBTITLE, 10, 30, 10, player);
 
         if (money != 0) {
-            MoneyAPI.getInstance().addMoney(player, money);
+            EconomyProfile.FastAccess.addMoney(player, money);
         }
         if (tokens != 0) {
-            TockensAPI.getInstance().addTockens(player, tokens);
+            EconomyProfile.FastAccess.addTokens(player, tokens);
         }
         if (itemStack != null)
             player.getInventory().addItem(itemStack);

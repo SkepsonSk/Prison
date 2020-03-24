@@ -5,7 +5,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import pl.trollcraft.Main;
-import pl.trollcraft.obj.Warp;
+import pl.trollcraft.obj.warps.Warp;
 import pl.trollcraft.util.ChatUtil;
 import pl.trollcraft.util.DelayedWarp;
 import pl.trollcraft.util.GeneralUtil;

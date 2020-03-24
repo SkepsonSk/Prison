@@ -52,7 +52,6 @@ public abstract class Booster {
                     if (b.seconds <= 0){
                         b.end();
                         it.remove();
-                        playerBoosters.remove(b);
                     }
 
                 }

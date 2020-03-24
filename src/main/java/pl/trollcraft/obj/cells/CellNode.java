@@ -79,13 +79,11 @@ public class CellNode {
             if (cd.getX() == x) {
                 mid = (cd.getZ() + z) / 2;
                 loc = new Location(world, x, y, mid);
-                Debug.log("CORR: N-S");
                 rotate = true;
             }
             else{
                 mid = (cd.getX() + x) / 2;
                 loc = new Location(world, mid, y, z);
-                Debug.log("CORR: E-W");
             }
 
             File corridorFile;
@@ -107,17 +105,6 @@ public class CellNode {
             if (cn == null) continue;
             cn.hookConnections();
         }
-    }
-
-    @Override
-    public String toString() {
-        String text = "Cela " + id + ":\n";
-        text += "X: " + x + "\n";
-        text += "Z: " + z + "\n";
-        text += "Polaczenia:\n";
-        for (CellData cd : connections)
-            text += cd.getId() + ", ";
-        return text;
     }
 
     public int[] getFreeDirection() {
@@ -155,7 +142,6 @@ public class CellNode {
         nextId = conf.getInt("next_id");
         Set<String> cells = conf.getConfigurationSection("cellnodes").getKeys(false);
 
-        Debug.log("&cLoading cells...");
         for (String s : cells){
             int id = Integer.parseInt(s);
             int x = conf.getInt(String.format("cellnodes.%s.x", s));
@@ -169,15 +155,11 @@ public class CellNode {
             new CellNode(id, x, z).connections = conns;
         }
 
-        Debug.log("&cConnecting cells...");
         for (CellNode cn : cellNodes) {
-            Debug.log("&cConnecting cell...");
             for (CellData conn : cn.connections) {
                 int[] pos = getPositions(conn.getId());
                 conn.setX(pos[0]);
                 conn.setZ(pos[1]);
-                Debug.log("&c" + pos[0] + ":" + pos[1]);
-                Debug.log("&c" + conn.getX() + ":" + conn.getZ());
             }
         }
 

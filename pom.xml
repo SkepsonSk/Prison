@@ -48,9 +48,9 @@
         <dependency>
             <groupId>dev.tes</groupId>
             <artifactId>money-api</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.3-SNAPSHOT</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/lib/Money-1.0-SNAPSHOT.jar</systemPath>
+            <systemPath>${project.basedir}/lib/Money-1.3-SNAPSHOT.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>org.fawe</groupId>

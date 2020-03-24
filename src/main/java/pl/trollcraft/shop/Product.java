@@ -3,6 +3,7 @@ package pl.trollcraft.shop;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import tesdev.Money.MoneyAPI;
+import tesdev.Money.api.EconomyProfile;
 
 public class Product {
 
@@ -17,12 +18,13 @@ public class Product {
     }
 
     public boolean canBuy(Player player) {
-        double money = MoneyAPI.getInstance().getMoney(player);
+        double money = EconomyProfile.FastAccess.getMoney(player);
         return money >= price;
     }
 
     public void buy(Player player) {
-        MoneyAPI.getInstance().removeMoney(player, price);
+        EconomyProfile.FastAccess.takeMoney(player, price);
+        //MoneyAPI.getInstance().removeMoney(player, price);
         player.getInventory().addItem(itemStack);
     }
 

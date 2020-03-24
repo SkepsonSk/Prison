@@ -20,6 +20,11 @@ public class CellCommand implements CommandExecutor {
 
         Player player = (Player) sender;
 
+        if (player.getWorld().getName().equals("envoy")){
+            ChatUtil.sendMessage(player, ChatUtil.fixColor("&cPodczas zrzutu nie mozesz uciec do celi!\n&7Aby udac sie do celi, idz wpierw na &e/spawn."));
+            return true;
+        }
+
         if (args.length == 0) {
 
             Cell cell = Cell.get(player);

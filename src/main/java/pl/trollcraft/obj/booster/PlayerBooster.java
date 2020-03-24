@@ -28,6 +28,7 @@ public class PlayerBooster extends Booster {
 
     @Override
     public void end() {
+        playerBoosters.remove(this);
         ChatUtil.sendMessage(player, ChatUtil.fixColor("&7Twoj Booster pieniezny wyczerpal sie..."));
     }
 

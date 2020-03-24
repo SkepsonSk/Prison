@@ -11,7 +11,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import pl.trollcraft.envoy.EnvoyChest;
-import pl.trollcraft.envoy.EnvoyItem;
 import pl.trollcraft.util.ChatUtil;
 
 import java.util.Set;
@@ -83,7 +82,7 @@ public class EnvoyAdminCommand implements CommandExecutor {
                 ItemStack itemStack = player.getItemInHand();
                 double chance = Double.parseDouble(args[1]);
 
-                EnvoyItem.registerItemStack(itemStack, chance);
+                EnvoyChest.registerItemStack(itemStack, chance);
                 ChatUtil.sendMessage(player, ChatUtil.fixColor("&7Przedmiot &ezarejestrowano."));
             }
 

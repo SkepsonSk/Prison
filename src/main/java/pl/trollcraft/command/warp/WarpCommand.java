@@ -1,12 +1,12 @@
 package pl.trollcraft.command.warp;
 
-import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import pl.trollcraft.Main;
-import pl.trollcraft.obj.Warp;
+import pl.trollcraft.obj.PrisonBlock;
+import pl.trollcraft.obj.warps.Warp;
 import pl.trollcraft.util.ChatUtil;
 import pl.trollcraft.util.DelayedWarp;
 import pl.trollcraft.util.GeneralUtil;
@@ -60,14 +60,19 @@ public class WarpCommand implements CommandExecutor {
             return true;
         }
 
-        player.sendMessage("" + warp.isLocked());
-
         if (warp.isLocked()){
-            ChatUtil.sendMessage(sender, ChatUtil.fixColor(
-                    Main.getInstance().getConfig().get("prefixColor") +
-                            Main.getInstance().getConfig().getString("prefix") +
-                            "&cTen warp jest zablokowany."));
-            return true;
+
+            if (!player.hasPermission("prison.admin")){
+
+                PrisonBlock block = PrisonBlock.get(name.toUpperCase());
+                if (block == null || !block.hasUnlocked(player)){
+                    ChatUtil.sendMessage(sender, ChatUtil.fixColor(
+                            Main.getInstance().getConfig().get("prefixColor") +
+                                    Main.getInstance().getConfig().getString("prefix") +
+                                    " &cTen WARP jest dla Ciebie niedostepny."));
+                    return true;
+                }
+            }
         }
 
         warp.teleport(player);

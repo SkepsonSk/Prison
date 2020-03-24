@@ -36,9 +36,8 @@ public class MessageCommand implements CommandExecutor {
         }
 
         String message = msg.toString();
-
-        sender.sendMessage("&6[ Ja >>> " + r.getName() + " ] &f" + message);
-        r.sendMessage("&6[ " + sender.getName() + " >>> Ja ] &f" + message);
+        ChatUtil.sendMessage(sender, ChatUtil.fixColor("&6[ Ja >>> " + r.getName() + " ] &f" + message));
+        ChatUtil.sendMessage(r, ChatUtil.fixColor("&6[ " + sender.getName() + " >>> Ja ] &f" + message));
 
         return true;
     }

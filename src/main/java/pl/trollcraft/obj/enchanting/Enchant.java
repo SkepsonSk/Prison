@@ -11,12 +11,11 @@ public enum Enchant {
     BLAST(EnchantRegister.BLAST_ENCHANTMENT),
 
     PROTECTION(Enchantment.PROTECTION_ENVIRONMENTAL),
-    FIRE_PROTECTION(Enchantment.PROTECTION_ENVIRONMENTAL),
+    FIRE_PROTECTION(Enchantment.PROTECTION_FIRE),
     PROTECTION_EXPLOSIONS(Enchantment.PROTECTION_EXPLOSIONS),
     PROTECTION_PROJECTILE(Enchantment.PROTECTION_PROJECTILE),
     THORNS(Enchantment.THORNS),
 
-    // Tego nie dodawać do CONFIGU
     FLY(EnchantRegister.FLY_ENCHANTMENT);
 
     private Enchantment enchantment;

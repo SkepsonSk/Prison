@@ -15,6 +15,6 @@ public class RewardAction extends MinerAction {
     public void prepare(Player player) { return; }
 
     @Override
-    public void perform(Player player, Material material, byte data) { BlockReward.rewardPlayer(player); }
+    public boolean perform(Player player, Material material, byte data) { BlockReward.rewardPlayer(player); return true; }
 
 }

@@ -7,11 +7,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 import pl.trollcraft.Main;
+import pl.trollcraft.backpacks.Backpack;
 import pl.trollcraft.obj.booster.Booster;
 import pl.trollcraft.util.ChatUtil;
 import pl.trollcraft.util.Utils;
 import tesdev.Money.MoneyAPI;
+import tesdev.Money.api.EconomyProfile;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,9 +44,8 @@ public class SellCommand implements CommandExecutor {
         }
         else if (args.length == 1){
 
-            if (args[0].equalsIgnoreCase(Main.getSells().getString("pass"))) {
+            if (args[0].equalsIgnoreCase(Main.getSells().getString("pass")))
                 sellAll(player);
-            }
 
         }
 
@@ -51,6 +53,7 @@ public class SellCommand implements CommandExecutor {
     }
 
     private void sellAll(Player player) {
+
         Inventory inv = player.getInventory();
         Material m;
         double sum = 0, s;
@@ -61,7 +64,7 @@ public class SellCommand implements CommandExecutor {
             m = is.getType();
             s = SellingUtils.getPrice(m, is.getData().getData(), true);
 
-            if (s == 0) continue;;
+            if (s == 0) continue;
 
             sum += s * is.getAmount();
             rem.add(is);
@@ -70,6 +73,23 @@ public class SellCommand implements CommandExecutor {
             inv.remove(is);
         rem.clear();
 
+        ArrayList<ItemStack> backpackItems = Backpack.getItemsInBackpack(player, true);
+        if (backpackItems != null){
+            for (ItemStack is : Backpack.getItemsInBackpack(player, true)){
+                if (is == null || is.getType() == Material.AIR) continue;
+                m = is.getType();
+                s = SellingUtils.getPrice(m, is.getData().getData(), true);
+
+                if (s == 0) continue;
+
+                sum += s * is.getAmount();
+                rem.add(is);
+            }
+
+            if (!rem.isEmpty())
+                Backpack.tryRemoveItemsFromBackpacks(player, rem, false);
+        }
+
         if (sum == 0){
             ChatUtil.sendMessage(player, ChatUtil.fixColor("&cBrak surowcow do sprzedania."));
             return;
@@ -77,7 +97,8 @@ public class SellCommand implements CommandExecutor {
 
         double sumRounded = Utils.round(sum, 3);
         double bonus = Booster.getBonus(player);
-        MoneyAPI.getInstance().addMoney(player, sumRounded * bonus);
+
+        EconomyProfile.FastAccess.addMoney(player, sumRounded * bonus);
 
         if (bonus == 1)
             ChatUtil.sendMessage(player, ChatUtil.fixColor("&7Sprzedano surowce.\n&a&l+" + sumRounded));

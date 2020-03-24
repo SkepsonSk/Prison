@@ -6,6 +6,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+import pl.trollcraft.obj.booster.GlobalBooster;
 import pl.trollcraft.obj.booster.PlayerBooster;
 import pl.trollcraft.util.ChatUtil;
 
@@ -19,7 +20,7 @@ public class BoosterAdminCommand implements CommandExecutor {
             if (args.length == 0) {
 
             }
-            if (args[0].equalsIgnoreCase("add")) {
+            else if (args[0].equalsIgnoreCase("add")) {
 
                 if (args.length != 4) {
                     ChatUtil.sendMessage(sender, ChatUtil.fixColor("&7Uzycie: /boosteradmin add <gracz> <bonus> <sekundy>"));
@@ -52,6 +53,24 @@ public class BoosterAdminCommand implements CommandExecutor {
                 }
                 else
                     PlayerBooster.setOfflineBooster(args[1], bonus, seconds);
+
+            }
+
+            else if (args[0].equalsIgnoreCase("global")) {
+
+                if (args.length != 3) {
+                    ChatUtil.sendMessage(sender, ChatUtil.fixColor("&7Uzycie: /boosteradmin global <bonus> <sekundy>"));
+                    return true;
+                }
+
+                double bonus = Double.parseDouble(args[1]);
+                int seconds = Integer.parseInt(args[2]);
+
+                new GlobalBooster(seconds, bonus);
+
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    ChatUtil.sendMessage(player, ChatUtil.fixColor("&aDodano &e&lBOOSTER GLOBALNY &ex" + bonus + " &ana &e" + seconds + " sekund."));
+                }
 
             }
 

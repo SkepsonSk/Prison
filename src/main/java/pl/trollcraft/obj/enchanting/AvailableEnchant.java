@@ -33,22 +33,19 @@ public class AvailableEnchant {
     }
 
     public Enchantment getEnchantment() { return enchantment; }
-    public String getDisplayName() { return displayName + " " + Utils.roman(level); }
+    public String getDisplayName() { return displayName + " " + Utils.toRoman(level); }
     public int getPrice() { return price; }
 
     public void apply(ItemStack itemStack) {
 
-        Bukkit.getConsoleSender().sendMessage(displayName);
-        Bukkit.getConsoleSender().sendMessage(enchantment.getName());
-
-        if (displayName.contains("Blast")){
+        if (displayName.contains("Blast") || displayName.contains("Lot")){
 
             ItemMeta itemMeta = itemStack.getItemMeta();
             List<String> lore = itemMeta.getLore();
 
             if (lore == null){
                 lore = new ArrayList<>();
-                lore.add(ChatUtil.fixColor("&7" + displayName + " " + Utils.roman(level)));
+                lore.add(ChatUtil.fixColor("&7" + displayName + " " + Utils.toRoman(level)));
             }
             else {
                 Iterator<String> it = lore.iterator();
@@ -58,7 +55,7 @@ public class AvailableEnchant {
                         break;
                     }
                 }
-                lore.add(ChatUtil.fixColor("&7" + displayName + " " + Utils.roman(level)));
+                lore.add(ChatUtil.fixColor("&7" + displayName + " " + Utils.toRoman(level)));
 
             }
 
@@ -80,8 +77,6 @@ public class AvailableEnchant {
 
             if (!e.canEnchantItem(itemStack)) continue;
             lvl = itemStack.getEnchantmentLevel(e);
-            Debug.log("" + data.getMaxLevel());
-            Debug.log(e.getName() + " " + lvl + " " + data.getMaxLevel());
 
             if (lvl < data.getMaxLevel()) availableEnchants.add(new AvailableEnchant(e, data.getDisplayName(), data.getLevelPrice() * (lvl + 1), lvl + 1));
         }

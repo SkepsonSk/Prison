@@ -15,6 +15,6 @@ public class MinedBlocksAction extends MinerAction {
     public void prepare(Player player) { return; }
 
     @Override
-    public void perform(Player player, Material material, byte data) { MinersManager.add(player, 1); }
+    public boolean perform(Player player, Material material, byte data) { MinersManager.add(player, 1); return true; }
 
 }

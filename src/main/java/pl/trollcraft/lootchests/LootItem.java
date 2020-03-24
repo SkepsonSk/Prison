@@ -8,31 +8,26 @@ public class LootItem implements Comparable<LootItem> {
 
     public enum Rarity {
 
-        COMMON("&7Pospolita", 90, 100),
-        UNCOMMON("&bNiepospolita", 70, 90),
-        RARE("&eRzadka", 50, 70),
-        UNIQUE("&cUnikalna", 30, 50),
-        LEGENDARY("&6Legendarna", 10, 30);
+        COMMON("&7Pospolita", 100),
+        UNCOMMON("&bNiepospolita", 70),
+        RARE("&eRzadka", 50),
+        UNIQUE("&cUnikalna", 30),
+        LEGENDARY("&6Legendarna", 10);
 
         private final Random RAND = new Random();
 
         private String name;
-        private double minChance;
-        private double maxChance;
+        private double chance;
 
-        Rarity(String name, double minChance, double maxChance){
+        Rarity(String name, double chance){
             this.name = name.replaceAll("&", "§");
-            this.minChance = minChance;
-            this.maxChance = maxChance;
+            this.chance = chance;
         }
 
         public String getName() { return name; }
 
-        public double getMinChance() { return minChance; }
-        public double getMaxChance() { return maxChance; }
-
         public double getChance() {
-            return minChance + (maxChance - minChance) * RAND.nextDouble();
+            return chance;
         }
 
     }

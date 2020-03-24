@@ -12,30 +12,40 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import pl.trollcraft.obj.PrisonBlock;
+import tesdev.Money.MoneyAPI;
+import tesdev.Money.api.EconomyProfile;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.TreeMap;
 
 public class Utils {
 
-    public static String roman(int n) {
-        switch (n) {
-            case 1:
-                return "I";
-            case 2:
-                return "II";
-            case 3:
-                return "III";
-            case 4:
-                return "IV";
-            case 5:
-                return "V";
-            case 6:
-                return "VI";
+    private final static TreeMap<Integer, String> map = new TreeMap<Integer, String>();
 
-            default:
-                return "";
+    static {
+        map.put(1000, "M");
+        map.put(900, "CM");
+        map.put(500, "D");
+        map.put(400, "CD");
+        map.put(100, "C");
+        map.put(90, "XC");
+        map.put(50, "L");
+        map.put(40, "XL");
+        map.put(10, "X");
+        map.put(9, "IX");
+        map.put(5, "V");
+        map.put(4, "IV");
+        map.put(1, "I");
+    }
+
+    public final static String toRoman(int number) {
+        int l =  map.floorKey(number);
+        if ( number == l ) {
+            return map.get(number);
         }
+        return map.get(l) + toRoman(number-l);
     }
 
     public static int fromRoman(String r) {
@@ -127,5 +137,18 @@ public class Utils {
 
     }
 
+    public static double getPercentageToPromotionBlocks(Player player) {
+        PrisonBlock block = PrisonBlock.getPlayerBlock(player).getNext();
+        double blocksRequired = (double) block.getEnterBlocksMined();
+        double mined = (double) MinersManager.get(player);
+        return round(mined / blocksRequired * 100, 2);
+    }
+
+    public static double getPercentageToPromotionMoney(Player player) {
+        PrisonBlock block = PrisonBlock.getPlayerBlock(player).getNext();
+        double moneyRequired = block.getEnterPrice();
+        double money = EconomyProfile.FastAccess.getMoney(player);
+        return round(money / moneyRequired * 100, 2);
+    }
 
 }

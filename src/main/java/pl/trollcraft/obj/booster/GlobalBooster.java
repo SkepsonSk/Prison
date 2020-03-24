@@ -8,11 +8,12 @@ public class GlobalBooster extends Booster {
 
     public GlobalBooster(int seconds, double bonus) {
         super(seconds, bonus);
-        Booster.globalBoosters.add(this);
+        globalBoosters.add(this);
     }
 
     @Override
     public void end() {
+        globalBoosters.remove(this);
         for (Player player : Bukkit.getOnlinePlayers()) {
             ChatUtil.sendMessage(player, ChatUtil.fixColor("&7Globalny Booster pieniezny wyczerpal sie..."));
         }

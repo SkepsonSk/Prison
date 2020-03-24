@@ -38,14 +38,22 @@ public class PlaceholderManager extends PlaceholderExpansion {
 
         if (iden.contains("mined"))
             return String.valueOf(MinersManager.get(player));
+
         else if (iden.contains("block"))
             return PrisonBlock.getPlayerBlock(player).getName();
-        else if (iden.contains("money"))
-            return String.valueOf(Utils.round(MoneyAPI.getInstance().getMoney(player), 3));
-        else if (iden.contains("tokens"))
-            return String.valueOf(TockensAPI.getInstance().getTockens(player));
+
+        else if (iden.contains("mtoprom")) {
+            double p = Utils.getPercentageToPromotionMoney(player);
+            if (p >= 100) return "&a&lOK";
+            else return "&f&l" + p + "%";
+        }
+
+        else if (iden.contains("btoprom")) {
+            double p = Utils.getPercentageToPromotionBlocks(player);
+            if (p >= 100) return "&a&lOK";
+            else return "&f&l" + p + "%";
+        }
 
         return "n/a";
-
     }
 }

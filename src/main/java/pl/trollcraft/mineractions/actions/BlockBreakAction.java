@@ -2,16 +2,14 @@ package pl.trollcraft.mineractions.actions;
 
 import com.comphenix.protocol.wrappers.EnumWrappers;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import pl.trollcraft.backpacks.Backpack;
 import pl.trollcraft.mineractions.MinerAction;
 import pl.trollcraft.util.AutoSell;
 import pl.trollcraft.util.DropManager;
 import pl.trollcraft.util.Utils;
-
-import java.util.Collection;
 
 public class BlockBreakAction extends MinerAction {
 
@@ -27,7 +25,7 @@ public class BlockBreakAction extends MinerAction {
     }
 
     @Override
-    public void perform(Player player, Material material, byte data) {
+    public boolean perform(Player player, Material material, byte data) {
 
         int fortuneLvl = (int) getData("fortuneLvl");
 
@@ -35,10 +33,18 @@ public class BlockBreakAction extends MinerAction {
         if (itemStack == null) itemStack = new ItemStack(material, 1, data);
 
         if (!player.getInventory().addItem(itemStack).isEmpty()) {
-            Utils.send("§cTwoj ekwipunek", EnumWrappers.TitleAction.TITLE, 5, 20, 5, player);
-            Utils.send("§cjest §ePELNY!", EnumWrappers.TitleAction.SUBTITLE, 5, 20, 5, player);
-            return;
+
+            if (!Backpack.tryAddToBackpacks(player, itemStack, false)){
+                Utils.send("§cTwoj ekwipunek", EnumWrappers.TitleAction.TITLE, 5, 20, 5, player);
+                Utils.send("§cjest §ePELNY!", EnumWrappers.TitleAction.SUBTITLE, 5, 20, 5, player);
+                return false;
+            }
+
+            return true;
+
         }
+
+        return true;
 
     }
 

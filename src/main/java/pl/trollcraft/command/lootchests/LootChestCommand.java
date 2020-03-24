@@ -1,7 +1,9 @@
-package pl.trollcraft.command;
+package pl.trollcraft.command.lootchests;
 
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
+import com.google.common.collect.ArrayListMultimap;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
@@ -57,7 +59,7 @@ public class LootChestCommand implements CommandExecutor {
 
             Chest chest = (Chest) b.getState();
             String name = args[1].replaceAll("&", "§");
-            new LootChest(RANDOM.nextInt(1000000), name, chest, null, 0d, new ArrayList<>());
+            new LootChest(RANDOM.nextInt(1000000), name, chest, null, 0d, ArrayListMultimap.create());
 
             ChatUtil.sendMessage(player, ChatUtil.fixColor("&aSkrzynia utworzona."));
             return true;
@@ -154,10 +156,10 @@ public class LootChestCommand implements CommandExecutor {
             return true;
 
         }
-        else if (args[0].equalsIgnoreCase("keyDropChance")) {
+        else if (args[0].equalsIgnoreCase("giveKey")) {
 
             if (args.length != 2){
-                ChatUtil.sendMessage(player, ChatUtil.fixColor("&7Uzycie: &e/lc keydropchance <szansa>"));
+                ChatUtil.sendMessage(player, ChatUtil.fixColor("&7Uzycie: &e/lc giveKey <gracz>"));
                 return true;
             }
 
@@ -167,10 +169,18 @@ public class LootChestCommand implements CommandExecutor {
                 return true;
             }
 
+            Player r = Bukkit.getPlayer(args[1]);
+            if (r == null || !r.isOnline()){
+                ChatUtil.sendMessage(player, ChatUtil.fixColor("&cBrak gracza na serwerze."));
+                return true;
+            }
+
             Chest chest = (Chest) b.getState();
             LootChest lootChest = LootChest.get(chest);
-            double chance = Double.parseDouble(args[1]);
+            player.getInventory().addItem(lootChest.getKey());
+            ChatUtil.sendMessage(player, ChatUtil.fixColor("&aDano klucz graczowi."));
 
+            return true;
 
         }
         else if (args[0].equalsIgnoreCase("save")) {

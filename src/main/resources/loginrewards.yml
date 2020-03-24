@@ -1,0 +1,7 @@
+loginrewards:
+  '1':
+    guiIcon:
+      type: DIRT
+      name: '&aDzien &a&lI:'
+      amount: 32
+    reward:

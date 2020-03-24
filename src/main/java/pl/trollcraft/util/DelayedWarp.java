@@ -3,7 +3,7 @@ package pl.trollcraft.util;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import pl.trollcraft.Main;
-import pl.trollcraft.obj.Warp;
+import pl.trollcraft.obj.warps.Warp;
 
 import java.util.ArrayList;
 import java.util.Iterator;

@@ -6,7 +6,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import pl.trollcraft.obj.PrisonBlock;
-import pl.trollcraft.obj.Warp;
+import pl.trollcraft.obj.warps.Warp;
 import pl.trollcraft.util.gui.GUI;
 
 import java.util.Arrays;
@@ -36,25 +36,11 @@ public class PrisonBlocksGui {
 
     private static GUI prepare(Player player) {
         GUI gui = new GUI(54, "§7§lBloki");
-        int locked = PrisonBlock.getBlocks().size(), index = 0;
+        int index = 0;
         for (PrisonBlock pb : PrisonBlock.getBlocks()) {
-
-            if (pb.hasUnlocked(player)) {
-                gui.addItem(index, createUnlockedItem(pb), blockPick);
-                index++;
-                locked--;
-            }
-            else break;
-
-        }
-
-        if (locked > 0) {
-
-            for (int i = 0 ; i < locked ; i++) {
-                gui.addItem(index, createLockedItem(), lockedPick);
-                index++;
-            }
-
+            if (pb.hasUnlocked(player)) gui.addItem(index, createUnlockedItem(pb), blockPick);
+            else gui.addItem(index, createLockedItem(pb), lockedPick);
+            index++;
         }
 
         return gui;
@@ -69,10 +55,11 @@ public class PrisonBlocksGui {
         return itemStack;
     }
 
-    private static ItemStack createLockedItem() {
+    private static ItemStack createLockedItem(PrisonBlock pb) {
         ItemStack itemStack = new ItemStack(LOCKED);
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName("§c§lBlok NIEDOSTEPNY");
+        itemMeta.setLore(Arrays.asList(new String[] { "", "§cWymagania:", " §cBloki: §e" + pb.getEnterBlocksMined(), " §cPieniadze: §e" + pb.getEnterPrice(), "" }));
         itemStack.setItemMeta(itemMeta);
         return itemStack;
     }

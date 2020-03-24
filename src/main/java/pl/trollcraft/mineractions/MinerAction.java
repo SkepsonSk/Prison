@@ -18,7 +18,7 @@ public abstract class MinerAction {
 
     public abstract boolean canBePerformed(Player player);
     public abstract void prepare(Player player);
-    public abstract void perform(Player player, Material material, byte data);
+    public abstract boolean perform(Player player, Material material, byte data);
 
     // -------- -------- -------- -------- --------
 
