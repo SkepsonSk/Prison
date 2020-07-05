@@ -42,10 +42,7 @@ public class WarpCommand implements CommandExecutor {
         }
 
         if (args.length != 1) {
-            ChatUtil.sendMessage(sender, ChatUtil.fixColor(
-                    Main.getInstance().getConfig().get("prefixColor") +
-                    Main.getInstance().getConfig().getString("prefix") +
-                    " &cUzycie: /setwarp <nazwa>"));
+            ChatUtil.sendMessage(sender, ChatUtil.fixColor("&cUzycie: /setwarp <nazwa>"));
             return true;
         }
 
@@ -53,10 +50,7 @@ public class WarpCommand implements CommandExecutor {
         Warp warp = Warp.get(name);
 
         if (Warp.get(name) == null){
-            ChatUtil.sendMessage(sender, ChatUtil.fixColor(
-                    Main.getInstance().getConfig().get("prefixColor") +
-                    Main.getInstance().getConfig().getString("prefix") +
-                    "&cNie ma takiego warpa."));
+            ChatUtil.sendMessage(sender, ChatUtil.fixColor("&cNie ma takiego warpa."));
             return true;
         }
 
@@ -66,10 +60,7 @@ public class WarpCommand implements CommandExecutor {
 
                 PrisonBlock block = PrisonBlock.get(name.toUpperCase());
                 if (block == null || !block.hasUnlocked(player)){
-                    ChatUtil.sendMessage(sender, ChatUtil.fixColor(
-                            Main.getInstance().getConfig().get("prefixColor") +
-                                    Main.getInstance().getConfig().getString("prefix") +
-                                    " &cTen WARP jest dla Ciebie niedostepny."));
+                    ChatUtil.sendMessage(sender, ChatUtil.fixColor("&cTen WARP jest dla Ciebie niedostepny."));
                     return true;
                 }
             }

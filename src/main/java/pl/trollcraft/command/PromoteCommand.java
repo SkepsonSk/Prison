@@ -46,7 +46,7 @@ public class PromoteCommand implements CommandExecutor {
                 ChatUtil.sendMessage(player, "&aOdblokowano blok &e" + next.getName() + "!");
                 String name = player.getName();
                 for (Player p : Bukkit.getOnlinePlayers()){
-                    if (p.getEntityId() == player.getEntityId()) {
+                    if (p.getEntityId() != player.getEntityId()) {
                         ChatUtil.sendMessage(p, "");
                         ChatUtil.sendMessage(p, ChatUtil.fixColor("&7Wiezien &e" + name + " &7odblokowal block &e&l" + next.getName()));
                         ChatUtil.sendMessage(p, "");

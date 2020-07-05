@@ -25,7 +25,7 @@ public class Product {
     public void buy(Player player) {
         EconomyProfile.FastAccess.takeMoney(player, price);
         //MoneyAPI.getInstance().removeMoney(player, price);
-        player.getInventory().addItem(itemStack);
+        player.getInventory().addItem(itemStack.clone());
     }
 
     public ItemStack getIcon() { return icon; }

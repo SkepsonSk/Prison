@@ -38,9 +38,15 @@ public class EnchantGui {
 
                 Player player = (Player) event.getWhoClicked();
                 double tokens = EconomyProfile.FastAccess.getTokens(player);
+                ItemStack itemInHand = player.getItemInHand();
 
+                if (ae.getEnchantment().canEnchantItem(itemInHand)){
+                    player.sendMessage(ChatUtil.fixColor("&cZly przedmiot!"));
+                    return;
+                }
+                
                 if (tokens >= ae.getPrice()){
-                    ae.apply(player.getItemInHand());
+                    ae.apply(itemInHand);
                     reload(player);
                     EconomyProfile.FastAccess.takeTokens(player, ae.getPrice());
                     //TockensAPI.getInstance().removeTockens(player, ae.getPrice());
@@ -107,6 +113,12 @@ public class EnchantGui {
                 event.setCancelled(true);
 
                 int tokens = EconomyProfile.FastAccess.getTokens(player);
+                ItemStack itemInHand = player.getItemInHand();
+
+                if (ae.getEnchantment().canEnchantItem(itemInHand)){
+                    player.sendMessage(ChatUtil.fixColor("&cZly przedmiot!"));
+                    return;
+                }
 
                 if (tokens >= ae.getPrice()){
                     ae.apply(player.getItemInHand());
